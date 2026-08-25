@@ -1,0 +1,131 @@
+<div class="container my-4">
+  <div class="row">
+    <!-- Panel Lateral de Filtros Expandido -->
+    <div class="col-md-3">
+      <div class="card p-3 shadow-sm border-0 bg-light">
+        <h5 class="fw-bold text-dark mb-3">
+          <i class="bi bi-funnel-fill me-2 text-primary"></i>Filtros
+        </h5>
+
+        <!-- Buscador -->
+        <label class="form-label fw-semibold text-secondary small">Palabra Clave</label>
+        <input
+          type="text"
+          [(ngModel)]="textoBuscar"
+          (keyup)="filtrarProgramas()"
+          class="form-control mb-3"
+          placeholder="Buscar programa..."
+        />
+
+        <!-- Filtro: Modalidad -->
+        <h6 class="fw-bold text-dark mt-2">Modalidad</h6>
+        <div *ngFor="let mod of filtroModalidad" class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="filtrosSeleccionados['modalidad'].includes(mod)"
+            (change)="onCheckboxChange('modalidad', mod, $event)"
+          />
+          <label class="form-check-label text-muted small">{{ mod }}</label>
+        </div>
+
+        <!-- Filtro: Localidad (Convertido a Lista Desplegable) -->
+        <h6 class="fw-bold text-dark mt-3">Localidad</h6>
+        <select
+          class="form-select form-select-sm text-muted"
+          (change)="onLocalidadSelectChange($event)"
+        >
+          <option value="">Todas las localidades</option>
+          <!-- Recorremos las localidades únicas con *ngFor -->
+          <option
+            *ngFor="let loc of filtroLocalidad"
+            [value]="loc"
+            [selected]="filtrosSeleccionados['localidad'].includes(loc)"
+          >
+            {{ loc }}
+          </option>
+        </select>
+
+        <!-- Filtro: Unidad Operativa CDC (Convertido a Lista Desplegable) -->
+<h6 class="fw-bold text-dark mt-3">Unidad Operativa (CDC)</h6>
+<select 
+  class="form-select form-select-sm text-muted" 
+  (change)="onCDCSelectChange($event)">
+  <option value="">Todos los centros (CDC)</option>
+  <option 
+    *ngFor="let cdc of filtroCDC" 
+    [value]="cdc"
+    [selected]="filtrosSeleccionados['unidadOperativaCDC'].includes(cdc)">
+    {{ cdc }}
+  </option>
+</select>
+
+
+        <!-- Filtro: Temática / Componente Area (Nuevo) -->
+        <h6 class="fw-bold text-dark mt-3">Temática</h6>
+        <div *ngFor="let tem of filtroTematica" class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="filtrosSeleccionados['area'].includes(tem)"
+            (change)="onCheckboxChange('area', tem, $event)"
+          />
+          <label class="form-check-label text-muted small">{{ tem }}</label>
+        </div>
+
+        <!-- Filtro: Tipo de Oferente (Nuevo) -->
+        <h6 class="fw-bold text-dark mt-3">Tipo de Oferente</h6>
+        <div *ngFor="let ofe of filtroOferente" class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="filtrosSeleccionados['tipoOferente'].includes(ofe)"
+            (change)="onCheckboxChange('tipoOferente', ofe, $event)"
+          />
+          <label class="form-check-label text-muted small">{{ ofe }}</label>
+        </div>
+
+        <!-- Filtro: Mes de Realización (Nuevo) -->
+        <h6 class="fw-bold text-dark mt-3">Mes de Inicio</h6>
+        <div *ngFor="let mes of filtroMes" class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="filtrosSeleccionados['mesRealizacion'].includes(mes)"
+            (change)="onCheckboxChange('mesRealizacion', mes, $event)"
+          />
+          <label class="form-check-label text-muted small">{{ mes }}</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel de Resultados -->
+    <div class="col-md-9">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-dark mb-0">Programas Disponibles</h4>
+        <span class="badge bg-primary px-3 py-2 rounded-pill fs-6"
+          >{{ totalResultados }} programas encontrados</span
+        >
+      </div>
+
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <div class="col" *ngFor="let item of programasMostrados">
+          <app-oferta [oferta]="item"></app-oferta>
+        </div>
+      </div>
+
+      <!-- Paginación -->
+      <nav class="mt-4" *ngIf="totalPaginas.length > 1">
+        <ul class="pagination justify-content-center">
+          <li
+            class="page-item"
+            *ngFor="let pag of totalPaginas"
+            [class.active]="paginaActual === pag"
+          >
+            <button class="page-link shadow-sm" (click)="cambiarPagina(pag)">{{ pag }}</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

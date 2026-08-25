@@ -1,0 +1,23 @@
+/* Caja de Inclusión Social (Azul suave) */
+.style-inclusion {
+    background-color: #e1f5fe !important;
+    border-radius: 8px;
+    color: #01579b !important;
+}
+
+/* Caja de Participativo Comunitario (Gris suave) */
+.style-comunitario {
+    background-color: #eeeeee !important;
+    border-radius: 8px;
+    color: #424242 !important;
+}
+
+/* Asegurar que las cajas blancas de la ficha técnica tengan dimensiones equilibradas */
+.border.rounded-3 {
+    border: 1px solid #e0e0e0 !important;
+    transition: transform 0.2s ease;
+}
+
+.border.rounded-3:hover {
+    transform: translateY(-3px);
+}

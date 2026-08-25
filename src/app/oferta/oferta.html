@@ -1,0 +1,28 @@
+<div class="card h-100 shadow-sm">
+  
+
+  <div class="card-body d-flex flex-column">
+    <!-- Categoria / Tipo de Curso (Cambiado de 'tipo' a 'nivel') -->
+    <p class="card-text mb-1">
+      <span class="badge bg-secondary">{{ oferta.nivel }}</span>
+    </p>
+
+    <!-- Nombre del Curso -->
+    <h5 class="card-title fw-bold mt-2">
+  <a [routerLink]="['/curso', oferta.id]" class="text-decoration-none text-dark link-primary">
+    {{ oferta.nombre }}
+  </a>
+</h5>
+
+    <!-- Información/Descripción (Cambiado de 'descripcion' a campos reales) -->
+    <p class="card-text text-muted flex-grow-1">
+      <strong>Área:</strong> {{ oferta.area }} <br />
+      <strong>Duración:</strong> {{ oferta.duracion }} <br />
+      <strong>Centro:</strong> {{ oferta.centro }}
+    </p>
+
+    <div class="mt-3">
+      <button class="btn btn-primary btn-sm w-100">Inscribirse al curso</button>
+    </div>
+  </div>
+</div>

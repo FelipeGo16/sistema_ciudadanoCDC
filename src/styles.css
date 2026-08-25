@@ -1,1 +1,390 @@
-/* You can add global styles to this file, and also import other style files */
+/* ==========================================================================
+   1. CONFIGURACIÓN GENERAL Y TIPOGRAFÍA
+   ========================================================================== */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   2. ESTRUCTURA DE LA BARRA SUPERIOR (GOV.CO)
+   ========================================================================== */
+.gov-bar {
+    background: #8B0000;
+    color: white;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* ==========================================================================
+   3. SECCIÓN HERO Y NAVEGACIÓN
+   ========================================================================== */
+.hero-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #6a040f 0%, #9d0208 25%, #d00000 50%, #dc2f02 75%, #e85d04 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Círculo decorativo de fondo */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    background: rgba(255, 255, 255, .05);
+    border-radius: 50%;
+    top: -200px;
+    right: -250px;
+    pointer-events: none; /* Evita bloquear clics en la interfaz */
+}
+
+/* Navegación transparente con desenfoque */
+.navbar-custom {
+    background: rgba(255, 255, 255, .08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.nav-link {
+    color: white !important;
+    margin-left: 20px;
+    font-size: 1rem;
+    transition: opacity 0.3s ease;
+}
+
+.nav-link:hover {
+    opacity: 0.8;
+}
+
+/* Optimización para menú colapsable en móviles */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background: rgba(106, 4, 15, 0.95);
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+    .nav-link {
+        margin-left: 0;
+        padding: 10px 0;
+    }
+}
+
+/* Botones de acción del menú */
+.btn-login {
+    background: white;
+    color: #9d0208;
+    border-radius: 40px;
+    padding: 12px 35px;
+    font-weight: 600;
+    border: none;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-login:hover {
+    background: #f8f9fa;
+    transform: scale(1.02);
+}
+
+.btn-register {
+    background: #6a040f;
+    color: white;
+    border-radius: 40px;
+    padding: 12px 35px;
+    font-weight: 600;
+    border: none;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.btn-register:hover {
+    opacity: 0.9;
+    transform: scale(1.02);
+}
+
+/* Contenido interno del Hero */
+.hero-content {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-image {
+    max-width: 100%;
+    height: auto;
+    animation: flotar 4s ease-in-out infinite;
+}
+
+@keyframes flotar {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+.hero-title {
+    color: white;
+    line-height: 1;
+}
+
+.hero-title-small {
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+.hero-title-big {
+    font-size: 7rem;
+    font-weight: 900;
+    text-shadow: 0 5px 15px rgba(0, 0, 0, .25);
+}
+
+/* ==========================================================================
+   4. COMPONENTE DE BUSQUEDA INCORPORADO
+   ========================================================================== */
+.search-container {
+    background: white;
+    border-radius: 60px;
+    padding: 10px;
+    margin-top: 40px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
+    position: relative;
+    z-index: 100;
+}
+
+.search-input, .search-input:focus {
+    border: none;
+    box-shadow: none !important;
+    font-size: 1.1rem;
+    background: transparent;
+    padding-left: 20px;
+}
+
+.search-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #d00000;
+    border: none;
+    color: white;
+    font-size: 1.4rem;
+    position: relative;
+    z-index: 101;
+    transition: background-color 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-btn:hover {
+    background: #9d0208;
+    transform: scale(1.05);
+}
+
+/* ==========================================================================
+   5. SECCIÓN: OFERTA EDUCATIVA (TARJETAS)
+   ========================================================================== */
+.oferta-card {
+    border: none;
+    border-radius: 25px;
+    overflow: hidden;
+    height: 430px;
+    background: linear-gradient(135deg, #22c7b8, #34b233);
+    position: relative;
+    transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.oferta-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, .2);
+}
+
+.oferta-card::before {
+    content: '';
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .08);
+    top: -40px;
+    right: -60px;
+    pointer-events: none;
+}
+
+.oferta-img {
+    max-height: 220px;
+    margin-top: 40px;
+    transition: transform 0.4s;
+}
+
+.oferta-card:hover .oferta-img {
+    transform: scale(1.08);
+}
+
+.oferta-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(135deg, #b04cff, #6b2fcf);
+    border-top-left-radius: 120px;
+    border-top-right-radius: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 25px;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+/* ==========================================================================
+   6. SECCIÓN: ESTADÍSTICAS Y SOLUCIONES
+   ========================================================================== */
+.estadisticas-section {
+    background: linear-gradient(135deg, #4158D0 0%, #3b82f6 40%, #06b6d4 100%);
+    position: relative;
+    overflow: hidden;
+    padding-top: 80px;
+    padding-bottom: 180px;
+    color: white;
+}
+
+.estadisticas-section::before {
+    content: "";
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .08);
+    top: -250px;
+    right: -150px;
+    pointer-events: none;
+}
+
+.stat-number {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.stat-text {
+    font-size: 1.2rem;
+    line-height: 1.1;
+}
+
+.linea-estadistica {
+    width: 180px;
+    height: 2px;
+    background: rgba(255, 255, 255, .5);
+    margin: 20px 0;
+}
+
+.aprendices-img {
+    max-width: 100%;
+    position: relative;
+    z-index: 2;
+}
+
+.soluciones-box {
+    background: linear-gradient(135deg, #9d4edd, #5a189a, #1e3a5f);
+    border-radius: 30px;
+    margin-top: -120px;
+    position: relative;
+    z-index: 10;
+    padding: 40px;
+}
+
+.soluciones-title {
+    color: white;
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+.soluciones-sub {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.card-solucion {
+    background: white;
+    border: none;
+    border-radius: 25px;
+    padding: 35px 20px;
+    text-align: center;
+    transition: transform 0.4s, box-shadow 0.4s;
+    height: 100%;
+}
+
+.card-solucion:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
+}
+
+.icon-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #38b000;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    font-size: 2rem;
+}
+
+.card-solucion h4 {
+    color: #001c80;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+/* Patron decorativo final */
+.footer-pattern {
+    height: 90px;
+    background: repeating-radial-gradient(circle, #6a040f 0px, #6a040f 12px, #9d0208 12px, #9d0208 24px);
+}
+
+/* ==========================================================================
+   7. RESPONSIVIDAD (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 991.98px) {
+    .hero-title-small {
+        font-size: 2rem;
+        text-align: center;
+    }
+    .hero-title-big {
+        font-size: 4rem;
+        text-align: center;
+    }
+    .hero-image {
+        margin-bottom: 40px;
+    }
+    .oferta-card {
+        height: 380px;
+    }
+    .oferta-img {
+        max-height: 180px;
+    }
+    .stat-number {
+        font-size: 3rem;
+    }
+    .soluciones-title {
+        font-size: 2rem;
+    }
+    .soluciones-box {
+        margin-top: -60px;
+    }
+}

@@ -1,0 +1,282 @@
+<!-- HERO -->
+
+<section
+  class="hero-section d-flex align-items-center"
+  [ngStyle]="{
+    'background-image':
+      'linear-gradient(rgba(106, 4, 15, 0.85), rgba(21, 0, 4, 0.9)), url(/imagenes/estudiantes-hero.png)',
+  }"
+>
+  <div class="container hero-content py-5">
+    <!-- El resto de tu código del Hero se mantiene igual -->
+
+    <div class="row align-items-center">
+      <!-- Bloque izquierdo -->
+      <div class="col-lg-7 text-start">
+        <h2 class="hero-title hero-title-small mb-0">¿Qué te gustaría</h2>
+
+        <h1 class="hero-title hero-title-big text-uppercase mb-4">aprender?</h1>
+
+        <!-- Buscador Expandido -->
+<div class="search-container">
+  <div class="row align-items-center g-0">
+    
+    <!-- Entrada de Texto (Mayor espacio para palabras largas) -->
+    <div class="col-9">
+      <input
+        type="text"
+        [(ngModel)]="terminoBusqueda"
+        class="form-control search-input bg-transparent border-0"
+        placeholder="Ingresa un curso, área o palabra clave..."
+      />
+    </div>
+
+    <!-- Botón de Lupa Circular -->
+    <div class="col-3 d-flex justify-content-end">
+      <button class="search-btn btn" (click)="irABuscador()">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+      </div>
+
+      <!-- Espacio para los estudiantes de la imagen -->
+      <div class="col-lg-5 d-none d-lg-block"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================== -->
+<!-- CARRUSEL DE ÚLTIMOS CURSOS            -->
+<!-- ===================================== -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-dark">Próximas Convocatorias</h2>
+      <p class="text-muted">
+        Descubre las últimas ofertas educativas añadidas recientemente a nuestro portal técnico.
+      </p>
+    </div>
+
+    <div
+      id="carruselCursos"
+      class="carousel slide shadow-lg rounded-4 overflow-hidden"
+      data-bs-ride="carousel"
+    >
+      <!-- Indicadores Inferiores -->
+      <div class="carousel-indicators">
+        <button
+          *ngFor="let curso of ultimosCursos; let i = index"
+          type="button"
+          data-bs-target="#carruselCursos"
+          [attr.data-bs-slide-to]="i"
+          [class.active]="i === 0"
+          [attr.aria-current]="i === 0 ? 'true' : null"
+        ></button>
+      </div>
+
+      <!-- Diapositivas Internas del Carrusel -->
+      <div class="carousel-inner" style="height: 400px">
+        <div
+          *ngFor="let curso of ultimosCursos; let isFirst = first"
+          class="carousel-item h-100"
+          [class.active]="isFirst"
+        >
+          <div class="position-absolute w-100 h-100 bg-dark opacity-50" style="z-index: 1"></div>
+      
+
+          <div
+            class="carousel-caption d-none d-md-flex flex-column justify-content-center align-items-center h-100"
+            style="z-index: 2; bottom: 0; top: 0"
+          >
+            <span
+              class="badge bg-warning text-dark text-uppercase mb-2 fw-bold px-3 py-2 rounded-pill shadow"
+            >
+              {{ curso.nivel }} • {{ curso.modalidad }}
+            </span>
+            <h2 class="fw-bold text-white display-5 mb-2 px-4 text-center text-shadow">
+              {{ curso.nombre }}
+            </h2>
+            <p class="text-light fs-5 mb-4 text-center max-width-700">
+              {{ curso.descripcionCompleta }}
+            </p>
+
+            <a
+              [routerLink]="['/curso', curso.id]"
+              class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow"
+            >
+              <i class="bi bi-info-circle me-2"></i>Ver Detalles de la Convocatoria
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controles de Navegación Izquierda y Derecha -->
+      <button
+        class="carousel-control-prev"
+        type="button"
+        (click)="controlCarrusel('prev')"
+        style="z-index: 3"
+      >
+        <span
+          class="carousel-control-prev-icon p-3 bg-dark rounded-circle"
+          aria-hidden="true"
+        ></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+
+      <button
+        class="carousel-control-next"
+        type="button"
+        (click)="controlCarrusel('next')"
+        style="z-index: 3"
+      >
+        <span
+          class="carousel-control-next-icon p-3 bg-dark rounded-circle"
+          aria-hidden="true"
+        ></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- OFERTA EDUCATIVA -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold display-4 text-primary">Nuestra Oferta Educativa</h2>
+      <p class="lead text-secondary">
+        Encuentra tu programa ideal, formación titulada, cursos cortos e idiomas con instructores
+        especializados.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- VIRTUAL -->
+      <div class="col-lg-3 col-md-6">
+        <div class="oferta-card" (click)="filtrarPorModalidad('Virtual')">
+          <div class="oferta-cuerpo-verde">
+            <img src="assets/imagenes/virtual.png" class="oferta-icono" alt="Icono Virtual" />
+          </div>
+          <div class="oferta-base-morada">Virtual</div>
+        </div>
+      </div>
+
+      <!-- PRESENCIAL Y A DISTANCIA -->
+      <div class="col-lg-3 col-md-6">
+        <div class="oferta-card" (click)="filtrarPorModalidad('Presencial')">
+          <div class="oferta-cuerpo-verde">
+            <img src="assets/imagenes/presencial.png" class="oferta-icono" alt="Icono Presencial" />
+          </div>
+          <div class="oferta-base-morada">Presencial y a distancia</div>
+        </div>
+      </div>
+
+      <!-- IDIOMAS -->
+      <div class="col-lg-3 col-md-6">
+        <div class="oferta-card" (click)="filtrarPorModalidad('Idiomas')">
+          <div class="oferta-cuerpo-verde">
+            <img src="assets/imagenes/idiomas.png" class="oferta-icono" alt="Icono Idiomas" />
+          </div>
+          <div class="oferta-base-morada">Idiomas</div>
+        </div>
+      </div>
+
+      <!-- EMPRESARIAL -->
+      <div class="col-lg-3 col-md-6">
+        <div class="oferta-card" (click)="filtrarPorModalidad('Empresarial')">
+          <div class="oferta-cuerpo-verde">
+            <img
+              src="assets/imagenes/empresarial.png"
+              class="oferta-icono"
+              alt="Icono Empresarial"
+            />
+          </div>
+          <div class="oferta-base-morada">Empresarial</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTADÍSTICAS -->
+<section class="estadisticas-section">
+  <div class="container">
+    <div class="row align-items-center">
+      
+      <!-- Columna Izquierda con tus datos reales -->
+      <div class="col-lg-3">
+        <div class="mb-5">
+          <div class="stat-number">1.2M</div>
+          <div class="stat-text">Aprendices actualmente<br />en formación</div>
+          <div class="linea-estadistica"></div>
+        </div>
+        <div>
+          <div class="stat-number">10K</div>
+          <div class="stat-text">Programas de formación<br />virtuales y presenciales</div>
+        </div>
+      </div>
+      
+      <!-- Espacio Central Libre (Los personajes se verán aquí desde el fondo) -->
+      <div class="col-lg-6 text-center-vacio">
+      </div>
+      
+      <!-- Columna Derecha con tus datos reales -->
+      <div class="col-lg-3 text-lg-end">
+        <div class="mb-5">
+          <div class="stat-number">117</div>
+          <div class="stat-text">Centros de Formación<br />en Colombia</div>
+          <div class="linea-estadistica ms-lg-auto"></div>
+        </div>
+        <div>
+          <div class="stat-number">98%</div>
+          <div class="stat-text">Tasa de satisfacción<br />de nuestros egresados</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- SOLUCIONES -->
+<div class="container my-5">
+  <div class="soluciones-box">
+    <div class="text-center mb-5">
+      <h2 class="soluciones-title">Soluciones para la comunidad</h2>
+      <p class="soluciones-sub">
+        Guías, fechas y ayudas reunidas para acompañarte paso a paso en tu inscripción.
+      </p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6">
+        <div class="card-solucion">
+          <div class="icon-circle"><i class="bi bi-check-circle"></i></div>
+          <h4 class="fs-5">Verifica si ya estás inscrito</h4>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="card-solucion">
+          <div class="icon-circle"><i class="bi bi-question-circle"></i></div>
+          <h4 class="fs-5">Preguntas frecuentes</h4>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="card-solucion">
+          <div class="icon-circle"><i class="bi bi-megaphone"></i></div>
+          <h4 class="fs-5">Apoyos Socioeconómicos</h4>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="card-solucion">
+          <div class="icon-circle"><i class="bi bi-exclamation-circle"></i></div>
+          <h4 class="fs-5">Ayudas y manuales</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

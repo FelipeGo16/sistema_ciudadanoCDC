@@ -1,0 +1,161 @@
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow border-0 rounded-4 p-4 bg-white">
+        <div class="text-center mb-4">
+          <i class="bi bi-person-badge-fill text-primary display-4"></i>
+          <h2 class="fw-bold mt-2 text-dark">Autenticación de Usuario</h2>
+          <p class="text-muted small">
+            Ingrese su documento para validar y actualizar su perfil en el portal
+          </p>
+        </div>
+
+        <!-- Consulta Inicial -->
+        <div class="mb-4">
+          <label class="form-label fw-bold text-secondary">Número de Documento</label>
+          <div class="input-group">
+            <input
+              type="text"
+              [(ngModel)]="documentoIngresado"
+              class="form-control"
+              placeholder="Ej: 10102020"
+              [disabled]="usuarioAutenticado"
+            />
+            <button
+              class="btn btn-primary fw-bold"
+              type="button"
+              (click)="buscarUsuario()"
+              *ngIf="!usuarioAutenticado"
+            >
+              Validar <i class="bi bi-arrow-right-short"></i>
+            </button>
+          </div>
+          <small *ngIf="errorMensaje" class="text-danger mt-1 d-block"
+            ><i class="bi bi-exclamation-circle me-1"></i>{{ errorMensaje }}</small
+          >
+        </div>
+
+        <!-- SECCIÓN REACTIVA: PERFIL Y FORMULARIO DE ACTUALIZACIÓN -->
+        <div *ngIf="usuarioAutenticado && datosParticipante" class="border-top pt-4">
+          <h5 class="fw-bold text-primary mb-3">
+            <i class="bi bi-pencil-square me-2"></i>Actualizar Información de Perfil
+          </h5>
+
+          <!-- Notificación de Éxito en Actualización -->
+          <div
+            *ngIf="perfilActualizadoExito"
+            class="alert alert-info border-0 shadow-sm py-2 px-3 mb-3 small d-flex align-items-center"
+          >
+            <i class="bi bi-info-circle-fill me-2 fs-5 text-info"></i>
+            <div>
+              <strong>¡Datos Guardados!</strong> Los cambios de contacto y ubicación se aplicaron
+              con éxito.
+            </div>
+          </div>
+
+          <div class="bg-light p-3 rounded-3 mb-4">
+            <!-- Campo no editable: Nombre completo -->
+            <div class="mb-3">
+              <label class="form-label text-muted small fw-bold mb-1"
+                >Nombre Completo (Identidad Protegida)</label
+              >
+              <input
+                type="text"
+                class="form-control form-control-sm bg-white"
+                [value]="datosParticipante.nombreCompleto"
+                disabled
+              />
+            </div>
+
+            <!-- 🆕 Formulario de Datos de Contacto y Ubicación Actualizables -->
+            <div class="row g-2">
+              <div class="col-md-6 mb-2">
+                <label class="form-label text-secondary small fw-bold mb-1">Teléfono Móvil</label>
+                <input
+                  type="text"
+                  [(ngModel)]="telefonoEditado"
+                  class="form-control form-control-sm"
+                  placeholder="Ej: 3110000000"
+                />
+              </div>
+              <div class="col-md-6 mb-2">
+                <label class="form-label text-secondary small fw-bold mb-1"
+                  >Localidad de Residencia</label
+                >
+                <select
+                  [(ngModel)]="localidadEditada"
+                  class="form-select form-select-sm text-muted"
+                >
+                  <option *ngFor="let loc of localidadesDisponibles" [value]="loc">
+                    {{ loc }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-12 mb-2">
+                <label class="form-label text-secondary small fw-bold mb-1"
+                  >Correo Electrónico</label
+                >
+                <input
+                  type="email"
+                  [(ngModel)]="correoEditado"
+                  class="form-control form-control-sm"
+                  placeholder="nombre@correo.com"
+                />
+              </div>
+            </div>
+
+            <!-- Botón para Guardar Cambios del Perfil -->
+            <div class="text-end mt-2">
+              <button
+                class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold"
+                (click)="actualizarPerfil()"
+              >
+                <i class="bi bi-save me-1"></i>Guardar Cambios de Perfil
+              </button>
+            </div>
+          </div>
+
+          <!-- Alerta de Condición de Beneficiario -->
+          <div
+            *ngIf="datosParticipante.esBeneficiario"
+            class="alert alert-success border-0 shadow-sm p-3 mb-4"
+          >
+            <div class="d-flex align-items-center">
+              <i class="bi bi-patch-check-fill fs-4 me-2"></i>
+              <div>
+                <h6 class="fw-bold mb-0">
+                  Beneficiario Validado: {{ datosParticipante.tipoBeneficiario }}
+                </h6>
+              </div>
+            </div>
+          </div>
+
+                    <!-- SECCIÓN DE CARGA DE PDF (Texto e Input actualizados como Opcional) -->
+          <div class="mb-4">
+            <label class="form-label fw-bold text-dark">
+              <i class="bi bi-file-pdf text-danger me-1"></i>Adjuntar Documento de Identidad (.PDF) <span class="text-muted fw-normal small">(Opcional)</span>
+            </label>
+            <input 
+              type="file" 
+              accept=".pdf" 
+              class="form-control" 
+              (change)="onFileSelected($event)">
+            <small class="text-muted d-block mt-1">Puedes adjuntar tu documento ahora o hacerlo más tarde en tu panel de usuario.</small>
+            <small *ngIf="pdfErrorMensaje" class="text-danger mt-1 d-block"><i class="bi bi-x-circle me-1"></i>{{ pdfErrorMensaje }}</small>
+          </div>
+
+          <!-- Botones de Acción Final -->
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary w-100 rounded-pill fw-bold" (click)="resetForm()">Cancelar</button>
+            
+            <!-- 🛠️ CORRECCIÓN: Quitamos [disabled]="!pdfCargado" para que el botón esté siempre activo al validar la cédula -->
+            <button class="btn btn-success w-100 rounded-pill fw-bold" (click)="finalizarIngreso()">
+              Ingresar al Sistema
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

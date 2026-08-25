@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <!-- Logotipo o Nombre de la aplicación -->
+    <a class="navbar-brand fw-bold" href="#">Ofertas</a>
+
+    <!-- Botón Hamburguesa para pantallas móviles -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSimple"
+      aria-controls="navbarSimple"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Enlaces de la barra de navegación -->
+    <div class="collapse navbar-collapse" id="navbarSimple">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+        </li>
+        <li class="nav-item">
+  
+  <a class="nav-link" [routerLink]="['/buscador']" routerLinkActive="active">Ofertas</a>
+</li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contacto</a>
+        </li>
+        <!-- En tu barra de navegación, busca el botón de Ingresar y adáptalo así: -->
+        <li class="nav-item ms-3">
+          <!-- 💻 Sintaxis correcta nativa de Angular para navegación por rutas -->
+          <a routerLink="/ingresar" class="btn btn-login text-decoration-none"> Ingresar </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

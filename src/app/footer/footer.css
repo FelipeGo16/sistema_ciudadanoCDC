@@ -1,0 +1,155 @@
+@import url("https://jsdelivr.net");
+
+.footer-institucional {
+    /* 🎨 Cambio a degradado lineal neón de rojo vivo a púrpura intenso */
+    background: linear-gradient(135deg, #ff1744 0%, #b310b3 50%, #511fff 100%);
+    position: relative;
+    padding-top: 60px;
+    padding-bottom: 0;
+    overflow: hidden;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.footer-contenido {
+    position: relative;
+    z-index: 5;
+    margin-bottom: 40px;
+}
+
+.logo-texto {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.redes-sociales {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Iconos de redes adaptados para contrastar con el fondo rojo/púrpura */
+.social-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #ffffff;
+    color: #b310b3; /* Color púrpura medio de consistencia */
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-3px);
+    background-color: #ff1744; /* Cambia a rojo al pasar el cursor */
+    color: #ffffff;
+}
+
+.certificaciones-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 12px;
+    max-width: 340px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.certificaciones-badge {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+/* Ajuste de color para los sellos institucionales */
+.sello-icontec, .sello-iqnet {
+    background-color: #3b11a8; /* Púrpura corporativo oscuro */
+    color: #ffffff;
+    font-size: 0.55rem;
+    text-align: center;
+    padding: 6px 4px;
+    border-radius: 4px;
+    flex: 1;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.sello-icontec span, .sello-iqnet span {
+    display: block;
+    font-size: 0.45rem;
+    font-weight: normal;
+    color: rgba(255,255,255,0.8);
+}
+.sello-iqnet {
+    background-color: #210661;
+}
+
+.info-icon-box {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.text-opacity-85 { color: rgba(255, 255, 255, 0.85); }
+.text-opacity-75 { color: rgba(255, 255, 255, 0.75); }
+
+/* --- SECCIÓN ARTÍSTICA DEL PAISAJE --- */
+.footer-paisaje {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    /* Se remueve el sol geométrico y se hace una transición hacia la base oscura */
+    background: linear-gradient(to bottom, transparent 0%, #210661 100%);
+    z-index: 2;
+}
+
+/* --- BARRA INFERIOR DE CRÉDITOS --- */
+.footer-creditos {
+    background-color: #210661; /* Púrpura profundo de cierre */
+    position: relative;
+    z-index: 4;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.gov-co-logo {
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+}
+
+/* --- BOTÓN FLOTANTE SOFIA PLUS --- */
+.btn-sofia-plus {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ff1744; /* Rojo enérgico para máxima visibilidad */
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    z-index: 999;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-sofia-plus:hover {
+    background-color: #b310b3;
+    color: #ffffff;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 991px) {
+    .footer-paisaje {
+        height: 100px;
+    }
+}
+

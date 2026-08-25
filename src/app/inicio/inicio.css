@@ -1,0 +1,255 @@
+.hero-section {
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+/* Modificamos levemente la animación para que no choque visualmente con la foto de fondo */
+.hero-image {
+    max-width: 90%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Contenedor Principal del Buscador */
+.search-container {
+    width: 100%;
+    /* 1. Controla el largo total: 520px es el ancho estándar del diseño de referencia */
+    max-width: 520px; 
+    background-color: #ffffff;
+    border-radius: 50px; /* Bordes completamente ovalados */
+    padding: 6px 8px;    /* Espaciado interno clínico */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    
+    /* Asegura separación respecto a elementos de abajo si los hay */
+    margin-top: 25px; 
+}
+
+/* Animación de enfoque al hacer clic en el buscador */
+.search-container:focus-within {
+    transform: scale(1.02);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* El Campo de Texto Interno */
+.search-input {
+    color: #333333 !important;
+    font-size: 1rem;
+    padding-left: 20px;
+    height: 48px; /* Altura cómoda para la lectura */
+}
+
+/* Estilo del texto de sugerencia (Placeholder) */
+.search-input::placeholder {
+    color: #888888;
+    font-size: 0.95rem;
+}
+
+/* Desactivar el borde azul por defecto del navegador */
+.search-input:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+/* Botón Circular Rojo de la Lupa */
+.search-btn {
+    background-color: #e01212; /* Rojo vibrante institucional */
+    color: #ffffff !important;
+    width: 48px;
+    height: 48px;
+    border-radius: 50% !important; /* Esfera perfecta */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    padding: 0;
+    border: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.search-btn:hover {
+    background-color: #b80c0c; /* Rojo más oscuro al pasar el cursor */
+    transform: rotate(10deg);
+}
+
+
+/* ==========================================
+   OFERTA EDUCATIVA
+   ========================================== */
+
+.oferta-card {
+    border-radius: 28px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    height: 320px; 
+    /* El mismo verde exacto de tus imágenes para que se fusione */
+    background: #00b074; 
+}
+
+.oferta-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Contenedor del icono flotante */
+.oferta-cuerpo-verde {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* TRUCO MAESTRO: Estira y enfoca la imagen original para borrar sus bordes */
+.oferta-icono {
+    width: 100%;
+    height: 140%; /* Un alto superior al 100% estira la imagen verticalmente */
+    
+    /* 'cover' expande la imagen eliminando los márgenes blancos laterales de tu archivo */
+    object-fit: cover; 
+    
+    /* Centra el gráfico horizontalmente y lo empuja hacia arriba para ocultar 
+       la curva morada diminuta que venía integrada en tu imagen original */
+    object-position: center -20px; 
+    
+    display: block;
+}
+
+/* La franja morada inferior nativa */
+.oferta-base-morada {
+    /* El mismo morado exacto de tus imágenes */
+    background: #7a33f1; 
+    color: #ffffff;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 18px 10px;
+    position: relative;
+    z-index: 2; /* Asegura que tape cualquier residuo de la imagen de arriba */
+    
+    /* Efecto de onda/curva hacia arriba */
+    border-top-left-radius: 50% 20px;
+    border-top-right-radius: 50% 20px;
+}
+
+.estadisticas-section {
+    /* 🛠️ Busca desde la raíz pública de assets */
+    background-image: url('/assets/imagenes/poblacion-vulnerable.png');
+}
+
+
+
+/* Modificadores de color para que tus textos HTML resalten sobre el fondo */
+.stat-number {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #ffffff; /* Blanco de alto contraste */
+    line-height: 1;
+}
+
+.stat-text {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.85); /* Blanco ligeramente translúcido */
+    margin-top: 6px;
+}
+
+.linea-estadistica {
+    width: 65px;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 22px 0;
+}
+
+/* Contenedor invisible para resguardar la composición en diseños móviles */
+.text-center-vacio {
+    min-height: 320px; 
+}
+
+@media (max-width: 991px) {
+    .estadisticas-section {
+        background-position: 48% center; /* Encajonamiento dinámico para celulares */
+        padding: 50px 0;
+    }
+    .stat-text {
+        margin-bottom: 35px;
+    }
+}
+
+/* Contenedor principal del ítem del carrusel */
+.carousel-item {
+    /* 🎨 Combinación magnética: Rojo Eléctrico, transición Magenta y Púrpura Profundo */
+    background: linear-gradient(135deg, #ff1744 0%, #b310b3 50%, #651fff 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Capa de fusión para asegurar el contraste del texto blanco */
+.capa-gradiente-verde {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    /* Mantiene las esquinas oscurecidas para un efecto cinematográfico y legible */
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, rgba(15, 5, 30, 0.55) 100%);
+    z-index: 1;
+}
+
+/* Sombra de texto reforzada para contrastar sobre fondos de alta energía */
+.text-shadow-vibrante {
+    text-shadow: 0 4px 15px rgba(15, 5, 30, 0.6);
+}
+
+.max-width-700 {
+    max-width: 700px;
+    text-shadow: 0 2px 8px rgba(15, 5, 30, 0.5);
+}
+
+/* Estilización de las flechas laterales */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: rgba(15, 5, 30, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: #ff1744 !important; /* Brilla en rojo al pasar el ratón */
+    transform: scale(1.1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
