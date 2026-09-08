@@ -1,0 +1,53 @@
+/* ==========================================================================
+   🛠️ SOPORTE PARA INTERCAMBIO DE PESTAÑAS (LOGIN / REGISTRO)
+   ========================================================================== */
+.tab-content > .tab-pane {
+  display: none; /* Oculta todas las pestañas por defecto */
+}
+
+.tab-content > .active {
+  display: block; /* Muestra únicamente la pestaña activa */
+}
+
+/* Transición suave al cambiar de pestaña */
+.fade {
+  transition: opacity 0.15s linear;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade { transition: none; }
+}
+.fade:not(.show) {
+  opacity: 0;
+}
+
+/* Estilo para los botones de pestañas superiores */
+.nav-tabs .nav-link {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.nav-tabs .nav-link:hover {
+  color: #39a900 !important;
+}
+
+/* ==========================================================================
+   🎨 CLASES DE CONTRASTE PARA LOS TEXTOS DE LAS PESTAÑAS (OFERTA)
+   ========================================================================== */
+.btn-pestana-modal {
+    font-size: 1.1rem !important;
+    text-transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Estado Activo: Texto verde con borde inferior grueso */
+.pestana-activa {
+    color: #39a900 !important;
+    border-bottom: 3px solid #39a900 !important;
+    opacity: 1 !important;
+}
+
+/* Estado Inactivo: Texto gris suave estándar */
+.pestana-inactiva {
+    color: #6c757d !important;
+    border-bottom: 3px solid transparent !important;
+    opacity: 0.7 !important;
+}

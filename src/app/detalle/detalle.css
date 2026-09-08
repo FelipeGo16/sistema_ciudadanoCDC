@@ -21,3 +21,27 @@
 .border.rounded-3:hover {
     transform: translateY(-3px);
 }
+
+/* ==========================================================================
+   🎨 CLASES DE CONTRASTE PARA LOS TEXTOS DE LAS PESTAÑAS
+   ========================================================================== */
+.btn-pestana-modal {
+    font-size: 1.1rem !important;
+    text-transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Estado Activo: Texto verde con borde inferior grueso */
+.pestana-activa {
+    color: #39a900 !important;
+    border-bottom: 3px solid #39a900 !important;
+    opacity: 1 !important;
+}
+
+/* Estado Inactivo: Texto gris suave estándar de los formularios */
+.pestana-inactiva {
+    color: #6c757d !important;
+    border-bottom: 3px solid transparent !important;
+    opacity: 0.7 !important;
+}
+

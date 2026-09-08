@@ -1,28 +1,188 @@
-<div class="card h-100 shadow-sm">
-  
-
+<div class="card h-100 shadow-sm border-0">
   <div class="card-body d-flex flex-column">
-    <!-- Categoria / Tipo de Curso (Cambiado de 'tipo' a 'nivel') -->
+    <!-- Categoria / Tipo de Curso -->
     <p class="card-text mb-1">
       <span class="badge bg-secondary">{{ oferta.nivel }}</span>
     </p>
 
     <!-- Nombre del Curso -->
     <h5 class="card-title fw-bold mt-2">
-  <a [routerLink]="['/curso', oferta.id]" class="text-decoration-none text-dark link-primary">
-    {{ oferta.nombre }}
-  </a>
-</h5>
+      <a [routerLink]="['/curso', oferta.id]" class="text-decoration-none text-dark link-primary">
+        {{ oferta.nombre }}
+      </a>
+    </h5>
 
-    <!-- Información/Descripción (Cambiado de 'descripcion' a campos reales) -->
+    <!-- Información/Descripción -->
     <p class="card-text text-muted flex-grow-1">
       <strong>Área:</strong> {{ oferta.area }} <br />
       <strong>Duración:</strong> {{ oferta.duracion }} <br />
       <strong>Centro:</strong> {{ oferta.centro }}
     </p>
 
+    <!-- 🛠️ CORRECCIÓN: Ahora el botón llama a un método en TypeScript para obligar al modal a abrirse -->
     <div class="mt-3">
-      <button class="btn btn-primary btn-sm w-100">Inscribirse al curso</button>
+      <button
+        class="btn btn-primary btn-sm w-100 fw-bold rounded-pill"
+        (click)="abrirCajaFlotante()"
+      >
+        Inscribirse al curso
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     📦 CAJA DE TEXTO EMERGENTE (MODAL DE AUTENTICACIÓN / REGISTRO CORREGIDO)
+     ========================================================================== -->
+<div
+  #modalElement
+  class="modal fade"
+  [id]="'modalInscripcion' + oferta.id"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 p-4 bg-white">
+
+      <button 
+        type="button" 
+        class="btn-close position-absolute" 
+        style="top: 20px; right: 20px; z-index: 1050; box-shadow: none;" 
+        aria-label="Close"
+        (click)="cerrarCajaFlotante()">
+      </button>
+      <!-- Cabecera de Pestañas controladas con Angular -->
+      <div class="modal-header border-0 pb-0 justify-content-center pt-2">
+        <ul class="nav nav-tabs border-0 w-100 justify-content-center" role="tablist">
+          <li class="nav-item w-50 text-center">
+            <!-- Pestaña Iniciar Sesión -->
+            <button class="nav-link fw-bold w-100 py-2 border-0 bg-transparent btn-pestana-modal"
+                    [class.pestana-activa]="!modalElement.getAttribute('data-tab') || modalElement.getAttribute('data-tab') === 'login'"
+                    [class.pestana-inactiva]="modalElement.getAttribute('data-tab') === 'registro'"
+                    (click)="modalElement.setAttribute('data-tab', 'login')">
+              Iniciar sesión
+            </button>
+          </li>
+          <li class="nav-item w-50 text-center">
+            <!-- Pestaña Registrarse -->
+            <button class="nav-link fw-bold w-100 py-2 border-0 bg-transparent btn-pestana-modal"
+                    [class.pestana-activa]="modalElement.getAttribute('data-tab') === 'registro'"
+                    [class.pestana-inactiva]="!modalElement.getAttribute('data-tab') || modalElement.getAttribute('data-tab') === 'login'"
+                    (click)="modalElement.setAttribute('data-tab', 'registro')">
+              Registrarse
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Cuerpo del Modal con alternancia reactiva -->
+      <div class="modal-body pt-4">
+        <div class="tab-content">
+          <!-- PESTAÑA: INICIAR SESIÓN -->
+          <div
+            class="tab-pane fade show"
+            [class.active]="
+              !modalElement.getAttribute('data-tab') ||
+              modalElement.getAttribute('data-tab') === 'login'
+            "
+          >
+            <div class="text-center mb-3">
+              <span class="text-secondary small">
+                Para registrar tu intención de solicitud al curso
+                <strong>{{ oferta.nombre }}</strong
+                >, por favor ingresa tus credenciales.
+              </span>
+            </div>
+
+            <!-- Tipo de documento -->
+            <div class="mb-3 input-group border rounded-3 p-1 bg-light shadow-sm">
+              <span class="input-group-text bg-transparent border-0 text-muted"
+                ><i class="bi bi-file-earmark-text"></i
+              ></span>
+              <!-- Busca el select de tipo de documento y vincúlalo -->
+<select [(ngModel)]="tipoDocDigitado" class="form-select bg-transparent border-0 text-muted small shadow-none">
+  <option value="CC">Cédula de Ciudadanía</option>
+  <option value="TI">Tarjeta de Identidad</option>
+  <option value="PEP">Permiso Especial de Permanencia</option>
+</select>
+            </div>
+
+            <!-- Número de documento -->
+            <div class="mb-3 input-group border rounded-3 p-1 bg-light shadow-sm">
+              <span class="input-group-text bg-transparent border-0 text-muted"
+                ><i class="bi bi-person"></i
+              ></span>
+              <!-- Busca el input de número de documento y vincúlalo -->
+<!-- 🛠️ CORRECCIÓN: Agregamos #inputDoc y removemos el ngModel problemático -->
+<input
+  #inputDoc
+  type="text"
+  class="form-control bg-transparent border-0 small shadow-none"
+  placeholder="Número de documento *"
+/>
+</div>
+<!-- ... Más abajo, busca el botón verde de "Iniciar sesión" y modifícalo para que envíe el valor del input directamente: -->
+<button class="btn btn-success px-5 py-2 fw-bold rounded-pill w-100 shadow-sm" 
+        style="background-color: #39a900; border: none; font-size: 1.1rem;" 
+        (click)="procesarSolicitudIntencion(inputDoc.value)"> <!-- 👈 PASAMOS EL VALOR DIRECTO -->
+  Iniciar sesión
+</button> 
+            
+
+            <div class="text-center mt-3 small">
+              <a href="#" class="text-success text-decoration-none fw-semibold"
+                >¿No recuerdas tu contraseña? Restablecer</a
+              >
+            </div>
+          </div>
+
+                              <!-- 🔵 PESTAÑA 2: REGISTRARSE (DENTRO DE OFERTA.HTML) -->
+          <div class="tab-pane fade show" 
+               [class.active]="modalElement.getAttribute('data-tab') === 'registro'"
+               *ngIf="modalElement.getAttribute('data-tab') === 'registro'">
+            
+            <div class="text-center mb-3">
+              <span class="text-secondary small">Crea una cuenta en nuestra plataforma.</span>
+            </div>
+
+            <!-- Input de Cédula exclusivo para el formulario de Registro en la tarjeta -->
+            <div class="mb-3 input-group border rounded-3 p-1 bg-light shadow-sm">
+              <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-person-vcard"></i></span>
+              <input
+                #inputDocReg
+                type="text"
+                class="form-control bg-transparent border-0 small shadow-none"
+                placeholder="Número de documento *"
+              />
+            </div>
+
+            <div class="mb-3 input-group border rounded-3 p-1 bg-light shadow-sm">
+              <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-envelope"></i></span>
+              <input type="email" class="form-control bg-transparent border-0 small shadow-none" placeholder="Correo electrónico *">
+            </div>
+            
+            <div class="mb-3 input-group border rounded-3 p-1 bg-light shadow-sm">
+              <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-lock"></i></span>
+              <input type="password" class="form-control bg-transparent border-0 small shadow-none" placeholder="Crea una contraseña *">
+            </div>
+
+            <div class="mt-4 text-center">
+              <!-- 🛠️ CORRECCIÓN: Vinculado a su propio inputDocReg.value -->
+              <button class="btn btn-primary px-5 py-2 fw-bold rounded-pill w-100 shadow-sm"
+                      style="background-color: #004085; border: none; font-size: 1.1rem;"
+                      (click)="procesarSolicitudIntencion(inputDocReg.value)">
+                Crear Cuenta e Inscribirme
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Pie del Modal -->
+      <div class="modal-footer border-0 justify-content-between p-0 mt-4 pt-2 border-top">
+        <span class="text-muted small" style="font-size: 0.75rem">© 2026 CDC.</span>
+      </div>
     </div>
   </div>
 </div>

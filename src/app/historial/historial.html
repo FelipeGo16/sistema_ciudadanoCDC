@@ -1,0 +1,67 @@
+<div class="container my-5">
+  <div class="card shadow border-0 rounded-4 p-4 bg-white">
+    <div class="text-center mb-4">
+      <i class="bi bi-mortarboard-fill text-success display-4"></i>
+      <h2 class="fw-bold text-dark mt-2">Mi Historial Académico</h2>
+      <p class="text-muted">Consulta el estado actual de todos tus programas e interacciones registradas en el sistema.</p>
+    </div>
+
+    <!-- Buscador de Cédula para la Consulta -->
+    <div class="row justify-content-center mb-5">
+      <div class="col-md-8">
+        <label class="form-label fw-bold text-secondary">Ingrese su Documento de Identidad para Consultar</label>
+        <div class="input-group">
+          <input type="text" [(ngModel)]="documentoConsulta" class="form-control shadow-sm" placeholder="Ej: 10102020">
+          <button class="btn btn-success fw-bold px-4" (click)="consultarHistorial()">
+            <i class="bi bi-search me-2"></i>Consultar Portal
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RENDERIZADO DEL HISTORIAL ORGANIZADO POR ESTADOS -->
+    <div *ngIf="busquedaRealizada" class="animation-fade">
+      
+      <div *ngIf="listadoHistorial.length === 0" class="text-center py-4 text-muted">
+        <i class="bi bi-folder-x display-4"></i>
+        <p class="mt-2 fs-5">No se encontraron interacciones o cursos asociados a este documento.</p>
+      </div>
+
+      <!-- Iteramos consecutivamente sobre los 7 estados obligatorios definidos en el criterio de aceptación -->
+      <div *ngFor="let estado of estadosProceso" class="mb-4">
+        <div class="d-flex align-items-center mb-3">
+          <h5 class="fw-bold text-dark mb-0 me-2">{{ estado }}</h5>
+          <span class="badge rounded-pill bg-secondary small">{{ filtrarPorEstado(estado).length }}</span>
+        </div>
+        
+        <div class="row g-3">
+          <!-- Tarjetas de Cursos en este Estado Específico -->
+          <div class="col-md-6" *ngFor="let item of filtrarPorEstado(estado)">
+            <div class="card h-100 border-start border-4 shadow-sm"
+                 [ngClass]="{
+                   'border-start-primary': estado === 'Intención',
+                   'border-start-warning': estado === 'Validación' || estado === 'Inscrito',
+                   'border-start-success': estado === 'En curso' || estado === 'Finalizado',
+                   'border-start-danger': estado === 'No Inscrito' || estado === 'Desertado'
+                 }">
+              <div class="card-body p-3">
+                <h6 class="fw-bold text-dark mb-1">{{ item.cursoNombre }}</h6>
+                <div class="row text-muted small mt-2">
+                  <div class="col-6">
+                    <i class="bi bi-geo-alt me-1 text-danger"></i><strong>Territorio:</strong> {{ item.localidad }}
+                  </div>
+                  <div class="col-6 text-end">
+                    <i class="bi bi-calendar-event me-1 text-primary"></i><strong>Registro:</strong> {{ item.fechaCambioEstado?.seconds ? (item.fechaCambioEstado.seconds * 1000 | date:'shortDate') : (item.fechaCambioEstado | date:'shortDate') }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="text-muted opacity-25 mt-4" />
+      </div>
+
+    </div>
+  </div>
+</div>
+
