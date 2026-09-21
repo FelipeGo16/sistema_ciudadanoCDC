@@ -358,6 +358,61 @@ body {
 }
 
 /* ==========================================================================
+   ♿ REGLAS DE ACCESIBILIDAD UNIVERSAL (MODO ACCESIBLE)
+   ========================================================================== */
+body.alto-contraste {
+    background-color: #121212 !important;
+    color: #ffff00 !important; /* Texto Amarillo de Alto Contraste */
+}
+
+body.alto-contraste .card, 
+body.alto-contraste .modal-content, 
+body.alto-contraste .search-container,
+body.alto-contraste .bg-light,
+body.alto-contraste .bg-white {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    border: 2px solid #ffff00 !important;
+    box-shadow: none !important;
+}
+
+body.alto-contraste a, 
+body.alto-contraste h1, 
+body.alto-contraste h2, 
+body.alto-contraste h3, 
+body.alto-contraste h4, 
+body.alto-contraste h5, 
+body.alto-contraste h6, 
+body.alto-contraste .text-dark,
+body.alto-contraste .text-secondary {
+    color: #ffff00 !important;
+    text-shadow: none !important;
+}
+
+body.alto-contraste button, 
+body.alto-contraste .btn-success, 
+body.alto-contraste .btn-primary {
+    background-color: #ffff00 !important;
+    color: #000000 !important;
+    border: 2px solid #ffffff !important;
+    font-weight: bold !important;
+}
+
+body.alto-contraste input, 
+body.alto-contraste select {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+    border: 1px solid #ffff00 !important;
+}
+
+/* Indicador de Foco para Discapacidad Motriz (Navegación por Teclado con Tabulador) */
+*:focus-visible {
+    outline: 4px solid #ff9f1c !important;
+    outline-offset: 2px !important;
+}
+
+
+/* ==========================================================================
    7. RESPONSIVIDAD (MEDIA QUERIES)
    ========================================================================== */
 @media (max-width: 991.98px) {

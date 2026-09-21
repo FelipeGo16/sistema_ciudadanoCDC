@@ -1,3 +1,68 @@
+<!-- 📊 PANEL FLOTANTE DE ACCESIBILIDAD UNIVERSAL -->
+<div class="position-fixed bottom-0 start-0 m-4" style="z-index: 2000">
+  <!-- Botón de Activación Principal (Accesible para Lectores de Pantalla con aria-label) -->
+  <button
+    class="btn btn-dark btn-lg rounded-circle shadow p-3"
+    (click)="toggleMenuAcceso()"
+    aria-label="Abrir menú de accesibilidad universal"
+    title="Menú de Accesibilidad"
+  >
+    <i class="bi bi-person-wheelchair fs-3"></i>
+  </button>
+
+  <!-- Opciones Desplegables del Modo Accesible -->
+  <div
+    *ngIf="mostrarMenu"
+    class="card mt-2 shadow-lg border-0 rounded-3 p-3 bg-white text-dark"
+    style="width: 260px; animation: fadeIn 0.2s ease"
+  >
+    <h6 class="fw-bold text-center border-bottom pb-2 mb-3">Opciones de Accesibilidad</h6>
+
+    <!-- Switch Principal -->
+    <div class="form-check form-switch mb-3">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="switchAcc"
+        [checked]="srvAcc.modoAccesibleActivo()"
+        (change)="srvAcc.toggleModoAccesible()"
+      />
+      <label class="form-check-label fw-bold small" for="switchAcc">Modo Accesible Autónomo</label>
+    </div>
+
+    <!-- Controles específicos habilitados solo si el modo está activo -->
+    <div *ngIf="srvAcc.modoAccesibleActivo()">
+      <!-- Alto Contraste -->
+      <button
+        class="btn btn-outline-secondary btn-sm w-100 mb-2 text-start rounded-pill d-flex align-items-center"
+        (click)="srvAcc.toggleAltoContraste()"
+      >
+        <i class="bi bi-circle-half me-2 text-primary"></i>
+        {{ srvAcc.altoContrasteActivo() ? 'Desactivar' : 'Activar' }} Contraste
+      </button>
+
+      <!-- Modificar Fuente -->
+      <div class="d-flex gap-1">
+        <button
+          class="btn btn-outline-secondary btn-sm w-50 rounded-pill"
+          (click)="srvAcc.aumentarFuente()"
+        >
+          <i class="bi bi-zoom-in"></i> Fuente +
+        </button>
+        <button
+          class="btn btn-outline-secondary btn-sm w-50 rounded-pill"
+          (click)="srvAcc.disminuirFuente()"
+        >
+          <i class="bi bi-zoom-out"></i> Fuente -
+        </button>
+      </div>
+      <div class="text-center mt-2 small text-muted">
+        Tamaño actual: {{ srvAcc.tamanoFuente() }}%
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- La barra superior y el menú de navegación se mantienen visibles en todo el sitio web -->
 <div class="gov-bar">GOV.CO</div>
 <app-nav></app-nav>

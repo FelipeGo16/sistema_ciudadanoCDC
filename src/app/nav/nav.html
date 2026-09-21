@@ -1,48 +1,77 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
   <div class="container">
     <!-- Logotipo o Nombre de la aplicación -->
-    <a class="navbar-brand fw-bold" href="#">Ofertas</a>
+    <a class="navbar-brand fw-bold" routerLink="/">
+      <i class="bi bi-rocket-takeoff me-2 text-success"></i>Portal Ofertas
+    </a>
 
-    <!-- Botón Hamburguesa para pantallas móviles -->
+    <!-- Botón Hamburguesa para pantallas móviles (Controlado con Angular) -->
     <button
       class="navbar-toggler"
       type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSimple"
-      aria-controls="navbarSimple"
-      aria-expanded="false"
+      (click)="toggleNavbar()"
+      [attr.aria-expanded]="!menuColapsado"
       aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Enlaces de la barra de navegación -->
-    <div class="collapse navbar-collapse" id="navbarSimple">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <!-- Enlaces de la barra de navegación (Sincronizados responsivamente) -->
+    <!-- 🛠️ CORRECCIÓN: ngClass inyecta 'show' de Bootstrap si menuColapsado es false -->
+    <div class="collapse navbar-collapse" [ngClass]="{ show: !menuColapsado }" id="navbarSimple">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+          <a
+            class="nav-link"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="cerrarMenuMovi()"
+          >
+            Inicio
+          </a>
         </li>
         <li class="nav-item">
-  
-  <a class="nav-link" [routerLink]="['/buscador']" routerLinkActive="active">Ofertas</a>
-</li>
-
+          <a
+            class="nav-link"
+            routerLink="/buscador"
+            routerLinkActive="active"
+            (click)="cerrarMenuMovi()"
+          >
+            Ofertas
+          </a>
+        </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Contacto</a>
+          <a
+            class="nav-link"
+            routerLink="/historial"
+            routerLinkActive="active"
+            (click)="cerrarMenuMovi()"
+          >
+            Mis Cursos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/contacto"
+            routerLinkActive="active"
+            (click)="cerrarMenuMovi()"
+          >
+            Contacto
+          </a>
         </li>
 
-        <!-- 🛠️ Agrega este li al lado de los enlaces de Inicio y Cursos -->
-<li class="nav-item">
-  <!-- Enrutamiento dinámico hacia tu nuevo componente de historial -->
-  <a routerLink="/historial" routerLinkActive="active" class="nav-link">
-    <i class="bi bi-mortarboard me-1"></i> Mis Cursos
-  </a>
-</li>
-
-        <!-- En tu barra de navegación, busca el botón de Ingresar y adáptalo así: -->
-        <li class="nav-item ms-3">
-          <!-- 💻 Sintaxis correcta nativa de Angular para navegación por rutas -->
-          <a routerLink="/ingresar" class="btn btn-login text-decoration-none"> Ingresar </a>
+        <!-- Botón de Acción Estilizado para Ingresar -->
+        <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+          <a
+            routerLink="/ingresar"
+            class="btn btn-success rounded-pill px-4 fw-bold shadow-sm btn-sm w-100 text-white"
+            (click)="cerrarMenuMovi()"
+            style="background-color: #39a900; border: none"
+          >
+            <i class="bi bi-box-arrow-in-right me-1"></i>Ingresar
+          </a>
         </li>
       </ul>
     </div>

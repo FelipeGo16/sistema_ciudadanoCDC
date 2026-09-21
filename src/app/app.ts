@@ -1,14 +1,14 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, Router } from '@angular/router'; // 👈 1. Importa Router desde @angular/router
+import { RouterOutlet, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Nav } from './nav/nav';
 import { Footer } from './footer/footer';
+import { AccesibilidadService } from './services/accesibilidad.service'; // 👈 1. Importación del servicio de accesibilidad
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  // 💡 Removemos "BusquedaComponent" de los imports de App, ya que ahora lo cargará el Router dinámicamente
   imports: [RouterOutlet, CommonModule, FormsModule, Nav, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -17,12 +17,22 @@ export class App {
   protected readonly title = signal('sistemac');
   terminoBusqueda: string = '';
 
-  // 👈 2. Inyecta el Router en el constructor de la clase
-  constructor(private router: Router) {}
+  // 🆕 2. Variable para controlar el despliegue del menú flotante de accesibilidad
+  mostrarMenu: boolean = false;
+
+  // 🛠️ CORREGIDO: Unificamos los dos constructores en uno solo para evitar el error de duplicidad
+  constructor(
+    private router: Router,
+    public srvAcc: AccesibilidadService, // 👈 3. Inyección del servicio de accesibilidad como público
+  ) {}
+
+  // 🆕 4. Método para abrir y cerrar el menú de accesibilidad
+  toggleMenuAcceso(): void {
+    this.mostrarMenu = !this.mostrarMenu;
+  }
 
   irABuscador(): void {
     if (this.terminoBusqueda.trim() !== '') {
-      // 👈 3. Navegación nativa de Angular hacia /buscador con parámetros de consulta
       this.router.navigate(['/buscador'], {
         queryParams: { buscar: this.terminoBusqueda },
       });
@@ -30,7 +40,6 @@ export class App {
   }
 
   filtrarPorModalidad(modalidad: string): void {
-    // 👈 4. Navegación por modalidad usando el Router nativo
     this.router.navigate(['/buscador'], {
       queryParams: { modalidad: modalidad },
     });
