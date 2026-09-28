@@ -85,6 +85,9 @@
    OFERTA EDUCATIVA
    ========================================== */
 
+/* ==========================================================================
+   📐 AJUSTE HORIZONTAL DEFINITIVO (ELIMINACIÓN DE FRANJAS LATERALES)
+   ========================================================================== */
 .oferta-card {
     border-radius: 28px;
     overflow: hidden;
@@ -94,43 +97,32 @@
     display: flex;
     flex-direction: column;
     height: 320px; 
-    /* El mismo verde exacto de tus imágenes para que se fusione */
-    background: #00b074; 
+    background: #fcae13; /* Mantiene el tono para la base interna */
 }
 
-.oferta-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
-
-/* Contenedor del icono flotante */
 .oferta-cuerpo-verde {
     flex: 1;
     display: flex;
-    justify-content: center;
-    align-items: center;
     overflow: hidden;
     position: relative;
+    background: #fcae13;
 }
 
-/* TRUCO MAESTRO: Estira y enfoca la imagen original para borrar sus bordes */
 .oferta-icono {
-    width: 100%;
-    height: 140%; /* Un alto superior al 100% estira la imagen verticalmente */
+    width: 100% !important;
+    height: 100% !important;
     
-    /* 'cover' expande la imagen eliminando los márgenes blancos laterales de tu archivo */
+    /* 🛠️ CAMBIO INTEGRAL: 'cover' obliga a la imagen a ocupar todo el ancho horizontal de la tarjeta */
     object-fit: cover; 
     
-    /* Centra el gráfico horizontalmente y lo empuja hacia arriba para ocultar 
-       la curva morada diminuta que venía integrada en tu imagen original */
-    object-position: center -20px; 
+    /* 🛠️ TRUCO DE ENCUADRE: Fijamos 'center top' para que el navegador recorte la imagen desde abajo, 
+       garantizando que las cabezas de las personas salgan completas e intactas arriba */
+    object-position: center top !important; 
     
     display: block;
 }
 
-/* La franja morada inferior nativa */
 .oferta-base-morada {
-    /* El mismo morado exacto de tus imágenes */
     background: #7a33f1; 
     color: #ffffff;
     text-align: center;
@@ -138,17 +130,40 @@
     font-size: 1.1rem;
     padding: 18px 10px;
     position: relative;
-    z-index: 2; /* Asegura que tape cualquier residuo de la imagen de arriba */
+    z-index: 2;
     
-    /* Efecto de onda/curva hacia arriba */
     border-top-left-radius: 50% 20px;
     border-top-right-radius: 50% 20px;
+    margin-top: -10px; /* Sella el acople con los arcos de las imágenes */
 }
 
+
+
+
 .estadisticas-section {
-    /* 🛠️ Busca desde la raíz pública de assets */
-    background-image: url('/assets/imagenes/poblacion-vulnerable.png');
+    min-height: 450px; /* Asegura un alto mínimo para apreciar el fondo */
+    
+    /* 🛠️ Vinculación y escalado adaptativo de la nueva imagen de 1392x752 */
+    background-image: url('/imagenes/Banner-2.jpg');
+    background-size: cover;          /* Escala la imagen para cubrir toda la sección */
+    background-position: center;     /* Centra los personajes en el eje vertical y horizontal */
+    background-repeat: no-repeat;    /* Evita que la foto se duplique en mosaico */
+    
+    /* Variables de contraste para los textos sobre el fondo amarillo */
+    color: #000000 !important;
+    position: relative;
 }
+
+/* Estilos de realce para los números estadísticos */
+.estadisticas-section .stat-number {
+    color: #000000 !important;
+    font-weight: 800;
+}
+
+.estadisticas-section .linea-estadistica {
+    background-color: #000000 !important;
+}
+
 
 
 

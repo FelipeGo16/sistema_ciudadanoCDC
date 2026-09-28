@@ -32,56 +32,76 @@
 </div>
 
 <!-- ==========================================================================
-     📦 CAJA DE TEXTO EMERGENTE (MODAL DE AUTENTICACIÓN / REGISTRO CORREGIDO)
-     ========================================================================== -->
+     📦 CAJA DE TEXTO EMERGENTE (MODAL REACONDICIONADO PARA OFERTA.HTML)
+     ========================================================================= -->
 <div
   #modalElement
   class="modal fade"
-  [id]="'modalInscripcion' + oferta.id"
+  [id]="'modalInscripcion' + (oferta ? oferta.id : 0)"
   tabindex="-1"
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content border-0 shadow-lg rounded-4 p-4 bg-white">
-
-      <button 
-        type="button" 
-        class="btn-close position-absolute" 
-        style="top: 20px; right: 20px; z-index: 1050; box-shadow: none;" 
+    <!-- 🛠️ Sincronizado para validar la existencia de 'oferta' -->
+    <div class="modal-content border-0 shadow-lg rounded-4 p-4 bg-white" *ngIf="oferta">
+      
+      <!-- Botón X para cerrar la ventana flotante de forma nativa -->
+      <button
+        type="button"
+        class="btn-close position-absolute"
+        style="top: 20px; right: 20px; z-index: 1050; box-shadow: none"
         aria-label="Close"
-        (click)="cerrarCajaFlotante()">
-      </button>
-      <!-- Cabecera de Pestañas controladas con Angular -->
+        (click)="cerrarCajaFlotante()"
+      ></button>
+
+      <!-- ==========================================================================
+           🛠️ CABECERA DE PESTAÑAS (CORREGIDO CON CLASES DE CONTRASTE EXPLICITAS)
+           ========================================================================== -->
       <div class="modal-header border-0 pb-0 justify-content-center pt-2">
         <ul class="nav nav-tabs border-0 w-100 justify-content-center" role="tablist">
           <li class="nav-item w-50 text-center">
-            <!-- Pestaña Iniciar Sesión -->
-            <button class="nav-link fw-bold w-100 py-2 border-0 bg-transparent btn-pestana-modal"
-                    [class.pestana-activa]="!modalElement.getAttribute('data-tab') || modalElement.getAttribute('data-tab') === 'login'"
-                    [class.pestana-inactiva]="modalElement.getAttribute('data-tab') === 'registro'"
-                    (click)="modalElement.setAttribute('data-tab', 'login')">
+            <button
+              class="nav-link fw-bold w-100 py-2 border-0 bg-transparent btn-pestana-modal"
+              [class.pestana-activa]="
+                !modalElement.getAttribute('data-tab') ||
+                modalElement.getAttribute('data-tab') === 'login'
+              "
+              [class.pestana-inactiva]="modalElement.getAttribute('data-tab') === 'registro'"
+              (click)="modalElement.setAttribute('data-tab', 'login')"
+            >
               Iniciar sesión
             </button>
           </li>
           <li class="nav-item w-50 text-center">
-            <!-- Pestaña Registrarse -->
-            <button class="nav-link fw-bold w-100 py-2 border-0 bg-transparent btn-pestana-modal"
-                    [class.pestana-activa]="modalElement.getAttribute('data-tab') === 'registro'"
-                    [class.pestana-inactiva]="!modalElement.getAttribute('data-tab') || modalElement.getAttribute('data-tab') === 'login'"
-                    (click)="modalElement.setAttribute('data-tab', 'registro')">
+            <button
+              class="nav-link fw-bold w-100 py-2 border-0 bg-transparent btn-pestana-modal"
+              [class.pestana-activa]="modalElement.getAttribute('data-tab') === 'registro'"
+              [class.pestana-inactiva]="
+                !modalElement.getAttribute('data-tab') ||
+                modalElement.getAttribute('data-tab') === 'login'
+              "
+              (click)="modalElement.setAttribute('data-tab', 'registro')"
+            >
               Registrarse
             </button>
           </li>
         </ul>
       </div>
 
-      <!-- Cuerpo del Modal con alternancia reactiva -->
-      <div class="modal-body pt-4">
+      <!-- ==========================================================================
+           📦 CUERPO DEL MODAL (ESTRUCTURA CORREGIDA Y DISTRIBUIDA)
+           ========================================================================== -->
+      <div class="modal-body pt-3">
         <div class="tab-content">
-          <!-- PESTAÑA: INICIAR SESIÓN -->
+          
+          <!-- 🟢 PESTAÑA 1: INICIAR SESIÓN -->
           <div
             class="tab-pane fade show"
             [class.active]="
+              !modalElement.getAttribute('data-tab') ||
+              modalElement.getAttribute('data-tab') === 'login'
+            "
+            *ngIf="
               !modalElement.getAttribute('data-tab') ||
               modalElement.getAttribute('data-tab') === 'login'
             "
@@ -89,65 +109,154 @@
             <div class="text-center mb-3">
               <span class="text-secondary small">
                 Para registrar tu intención de solicitud al curso
-                <strong>{{ oferta.nombre }}</strong
-                >, por favor ingresa tus credenciales.
+                <strong>{{ oferta.nombre }}</strong>, por favor valida tu identidad.
               </span>
             </div>
 
-            <!-- Tipo de documento -->
-            <div class="mb-3 input-group border rounded-3 p-1 bg-light shadow-sm">
-              <span class="input-group-text bg-transparent border-0 text-muted"
-                ><i class="bi bi-file-earmark-text"></i
-              ></span>
-              <!-- Busca el select de tipo de documento y vincúlalo -->
-<select [(ngModel)]="tipoDocDigitado" class="form-select bg-transparent border-0 text-muted small shadow-none">
-  <option value="CC">Cédula de Ciudadanía</option>
-  <option value="TI">Tarjeta de Identidad</option>
-  <option value="PEP">Permiso Especial de Permanencia</option>
-</select>
+            <!-- 1. CONSULTA INICIAL DE DOCUMENTO -->
+            <div class="mb-3">
+              <label class="form-label fw-bold text-secondary small">Número de Documento *</label>
+              <div class="input-group border rounded-3 p-1 bg-light shadow-sm">
+                <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-person-vcard"></i></span>
+                
+                <input
+                  #inputDocValidar
+                  type="text"
+                  class="form-control bg-transparent border-0 small shadow-none"
+                  placeholder="Ej: 10102020"
+                  [value]="documentoDigitado"
+                  [disabled]="usuarioAutenticado"
+                />
+
+                <button
+                  class="btn btn-primary fw-bold btn-sm rounded-pill px-3 ms-2"
+                  type="button"
+                  (click)="documentoDigitado = inputDocValidar.value; buscarUsuario()"
+                  *ngIf="!usuarioAutenticado"
+                >
+                  Validar <i class="bi bi-arrow-right-short bg-transparent"></i>
+                </button>
+              </div>
+
+              <small *ngIf="errorMensaje" class="text-danger mt-1 d-block small">
+                <i class="bi bi-exclamation-circle me-1"></i>{{ errorMensaje }}
+              </small>
             </div>
 
-            <!-- Número de documento -->
-            <div class="mb-3 input-group border rounded-3 p-1 bg-light shadow-sm">
-              <span class="input-group-text bg-transparent border-0 text-muted"
-                ><i class="bi bi-person"></i
-              ></span>
-              <!-- Busca el input de número de documento y vincúlalo -->
-<!-- 🛠️ CORRECCIÓN: Agregamos #inputDoc y removemos el ngModel problemático -->
-<input
-  #inputDoc
-  type="text"
-  class="form-control bg-transparent border-0 small shadow-none"
-  placeholder="Número de documento *"
-/>
-</div>
-<!-- ... Más abajo, busca el botón verde de "Iniciar sesión" y modifícalo para que envíe el valor del input directamente: -->
-<button class="btn btn-success px-5 py-2 fw-bold rounded-pill w-100 shadow-sm" 
-        style="background-color: #39a900; border: none; font-size: 1.1rem;" 
-        (click)="procesarSolicitudIntencion(inputDoc.value)"> <!-- 👈 PASAMOS EL VALOR DIRECTO -->
-  Iniciar sesión
-</button> 
-            
+            <!-- 2. SECCIÓN REACTIVA: PERFIL Y FORMULARIO DE ACTUALIZACIÓN -->
+            <div
+              *ngIf="usuarioAutenticado && datosParticipante"
+              class="border-top pt-3 animation-fade"
+            >
+              <h6 class="fw-bold text-primary mb-3">
+                <i class="bi bi-pencil-square me-2"></i>Actualizar Información de Perfil
+              </h6>
 
-            <div class="text-center mt-3 small">
-              <a href="#" class="text-success text-decoration-none fw-semibold"
-                >¿No recuerdas tu contraseña? Restablecer</a
+              <div
+                *ngIf="perfilActualizadoExito"
+                class="alert alert-info border-0 shadow-sm py-2 px-3 mb-3 small d-flex align-items-center rounded-3"
               >
-            </div>
-          </div>
+                <i class="bi bi-info-circle-fill me-2 text-info"></i>
+                <div class="small">
+                  <strong>¡Datos Guardados!</strong> Los cambios se aplicaron con éxito.
+                </div>
+              </div>
 
-                              <!-- 🔵 PESTAÑA 2: REGISTRARSE (DENTRO DE OFERTA.HTML) -->
-          <div class="tab-pane fade show" 
-               [class.active]="modalElement.getAttribute('data-tab') === 'registro'"
-               *ngIf="modalElement.getAttribute('data-tab') === 'registro'">
-            
+              <div class="bg-light p-3 rounded-3 mb-3 border">
+                <div class="mb-2">
+                  <label class="form-label text-muted small fw-bold mb-1">Nombre Completo</label>
+                  <input
+                    type="text"
+                    class="form-control form-control-sm bg-white border shadow-none"
+                    [value]="datosParticipante.nombreCompleto"
+                    disabled
+                  />
+                </div>
+
+                <div class="row g-2">
+                  <div class="col-md-6 mb-1">
+                    <label class="form-label text-secondary small fw-bold mb-1">Teléfono Móvil</label>
+                    <input
+                      type="text"
+                      [(ngModel)]="telefonoEditado"
+                      name="telEdit"
+                      class="form-control form-control-sm shadow-none"
+                      placeholder="Ej: 3110000000"
+                    />
+                  </div>
+                  <div class="col-md-6 mb-1">
+                    <label class="form-label text-secondary small fw-bold mb-1">Localidad</label>
+                    <select
+                      [(ngModel)]="localidadEditada"
+                      name="locEdit"
+                      class="form-select form-select-sm text-muted shadow-none"
+                    >
+                      <option *ngFor="let loc of localidadesDisponibles" [value]="loc">
+                        {{ loc }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-12 mb-1">
+                    <label class="form-label text-secondary small fw-bold mb-1">Correo Electrónico</label>
+                    <input
+                      type="email"
+                      [(ngModel)]="correoEditado"
+                      name="mailEdit"
+                      class="form-control form-control-sm shadow-none"
+                      placeholder="nombre@correo.com"
+                    />
+                  </div>
+                </div>
+
+                <div class="text-end mt-2">
+                  <button
+                    class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold"
+                    (click)="actualizarPerfil()"
+                  >
+                    <i class="bi bi-save me-1"></i>Guardar Cambios de Perfil
+                  </button>
+                </div>
+              </div>
+
+              <!-- Alerta de Condición de Beneficiario -->
+              <div *ngIf="datosParticipante.esBeneficiario" class="alert alert-success border-0 shadow-sm p-3 mb-4">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-patch-check-fill fs-4 me-2"></i>
+                  <div>
+                    <h6 class="fw-bold mb-0">Beneficiario Validado: {{ datosParticipante.tipoBeneficiario }}</h6>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botón Final de Persistencia en Firebase -->
+              <div class="mt-4 text-center">
+                <button
+                  class="btn btn-success px-5 py-2 fw-bold rounded-pill w-100 shadow-sm"
+                  style="background-color: #39a900; border: none; font-size: 1.1rem;"
+                  (click)="procesarSolicitudIntencion(inputDocValidar.value)"
+                >
+                  Confirmar e Inscribirme al Curso
+                </button>
+              </div>
+
+            </div> <!-- Fin de sección reactiva -->
+          </div> <!-- Fin de pestaña 1 -->
+
+                    <!-- 🔵 PESTAÑA 2: REGISTRARSE (DENTRO DE OFERTA.HTML) -->
+          <div
+            class="tab-pane fade show"
+            [class.active]="modalElement.getAttribute('data-tab') === 'registro'"
+            *ngIf="modalElement.getAttribute('data-tab') === 'registro'"
+          >
             <div class="text-center mb-3">
-              <span class="text-secondary small">Crea una cuenta en nuestra plataforma.</span>
+              <span class="text-secondary small">
+                Crea una cuenta en nuestra plataforma <strong>Betowa</strong> para guardar tu historial de intenciones académicas.
+              </span>
             </div>
 
-            <!-- Input de Cédula exclusivo para el formulario de Registro en la tarjeta -->
             <div class="mb-3 input-group border rounded-3 p-1 bg-light shadow-sm">
               <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-person-vcard"></i></span>
+              <!-- 🛠️ CORRECCIÓN DEFINITIVA: Agregamos #inputDocReg para que el botón de abajo pueda leer su valor sin errores -->
               <input
                 #inputDocReg
                 type="text"
@@ -160,29 +269,36 @@
               <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-envelope"></i></span>
               <input type="email" class="form-control bg-transparent border-0 small shadow-none" placeholder="Correo electrónico *">
             </div>
-            
+
             <div class="mb-3 input-group border rounded-3 p-1 bg-light shadow-sm">
               <span class="input-group-text bg-transparent border-0 text-muted"><i class="bi bi-lock"></i></span>
               <input type="password" class="form-control bg-transparent border-0 small shadow-none" placeholder="Crea una contraseña *">
             </div>
 
             <div class="mt-4 text-center">
-              <!-- 🛠️ CORRECCIÓN: Vinculado a su propio inputDocReg.value -->
-              <button class="btn btn-primary px-5 py-2 fw-bold rounded-pill w-100 shadow-sm"
-                      style="background-color: #004085; border: none; font-size: 1.1rem;"
-                      (click)="procesarSolicitudIntencion(inputDocReg.value)">
+              <button
+                class="btn btn-primary px-5 py-2 fw-bold rounded-pill w-100 shadow-sm"
+                style="background-color: #004085; border: none; font-size: 1.1rem;"
+                (click)="procesarSolicitudIntencion(inputDocReg.value)"
+              >
                 Crear Cuenta e Inscribirme
               </button>
             </div>
-          </div>
+          </div> <!-- Fin de pestaña 2 -->
 
-        </div>
-      </div>
+
+        </div> <!-- Fin de .tab-content -->
+      </div> <!-- Fin de .modal-body -->
 
       <!-- Pie del Modal -->
       <div class="modal-footer border-0 justify-content-between p-0 mt-4 pt-2 border-top">
         <span class="text-muted small" style="font-size: 0.75rem">© 2026 CDC.</span>
+        <button type="button" class="btn btn-link text-success text-decoration-none p-0 small fw-semibold" style="font-size: 0.8rem;">
+          <i class="bi bi-info-circle me-1"></i>Ayudas y manuales
+        </button>
       </div>
-    </div>
-  </div>
-</div>
+
+    </div> <!-- Fin de .modal-content -->
+  </div> <!-- Fin de .modal-dialog -->
+</div> <!-- Fin de .modal (#modalElement) -->
+

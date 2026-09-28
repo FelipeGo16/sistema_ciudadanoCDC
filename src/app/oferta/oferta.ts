@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InscripcionService } from '../services/inscripcion.service';
+import { AuthService, Participante } from '../auth/auth.service'; // 👈 1. IMPORTACIÓN CORREGIDA
 
 // ==========================================================================
 // 🛠️ 1. INTERFAZ GLOBAL SINCRONIZADA CON REQUERIMIENTOS INSTITUCIONALES
@@ -107,7 +108,7 @@ export const PROGRAMAS_DATA: Programa[] = [
     fechaLimiteInscripcion: '2026-09-10',
     esPorDemanda: true,
     cuposDisponibles: null,
-    validada: false, // Ocultado por regla de validación
+    validada: false,
     imagen: 'https://unsplash.com',
     descripcionCompleta:
       'Herramientas conceptuales y prácticas para la promoción del bienestar emocional, identificación de signos de alerta y primeros auxilios psicológicos.',
@@ -133,7 +134,7 @@ export const PROGRAMAS_DATA: Programa[] = [
     mesRealizacion: 'Octubre 2026',
     fechaLimiteInscripcion: '2026-09-15',
     esPorDemanda: false,
-    cuposDisponibles: 0, // Ocultado por regla de cupos > 0
+    cuposDisponibles: 0,
     validada: true,
     imagen: 'https://unsplash.com',
     descripcionCompleta:
@@ -147,24 +148,87 @@ export const PROGRAMAS_DATA: Programa[] = [
 ];
 
 // ==========================================================================
-// 🎨 3. LOGICA Y CONTROLADOR DEL COMPONENTE DE TARJETA
+// 🎨 3. LOGICA Y CONTROLADOR DEL COMPONENTE DE TARJETA (STANDALONE REFORZADO)
 // ==========================================================================
 @Component({
   selector: 'app-oferta',
-  standalone: true,
+  standalone: true, // 👈 2. GARANTIZA QUE ESTO NO SE BORRE
   imports: [RouterModule, CommonModule, FormsModule],
   templateUrl: './oferta.html',
   styleUrl: './oferta.css',
 })
 export class Oferta {
-  @Input() oferta!: Programa; // Fuertemente tipado con la interfaz local
+  @Input() oferta!: Programa;
 
   documentoDigitado: string = '';
   tipoDocDigitado: string = 'CC';
+  usuarioAutenticado: boolean = false;
+  datosParticipante: Participante | undefined;
+
+  correoEditado: string = '';
+  telefonoEditado: string = '';
+  localidadEditada: string = '';
+  localidadesDisponibles: string[] = [
+    'Suba',
+    'Usme',
+    'Teusaquillo',
+    'Bosa',
+    'Kennedy',
+    'Engativá',
+    'Usaquén',
+    'Santa Fe',
+  ];
+
+  errorMensaje: string = '';
+  perfilActualizadoExito: boolean = false;
 
   @ViewChild('modalElement') modalElement!: ElementRef;
 
-  constructor(private inscripcionService: InscripcionService) {}
+  constructor(
+    private srcInscripcion: InscripcionService,
+    private authService: AuthService,
+  ) {}
+
+  buscarUsuario(): void {
+    this.errorMensaje = '';
+    this.perfilActualizadoExito = false;
+
+    if (!this.documentoDigitado.trim()) {
+      this.errorMensaje = 'Por favor ingrese un número de documento válido.';
+      return;
+    }
+
+    const resultado = this.authService.consultarDocumento(this.documentoDigitado.trim());
+
+    if (resultado) {
+      this.datosParticipante = resultado;
+      this.usuarioAutenticado = true;
+
+      this.correoEditado = resultado.correo;
+      this.telefonoEditado = resultado.telefono;
+      this.localidadEditada = resultado.localidadResidencia;
+    } else {
+      this.errorMensaje = 'El número de documento no se encuentra registrado en el sistema.';
+      this.usuarioAutenticado = false;
+      this.datosParticipante = undefined;
+    }
+  }
+
+  actualizarPerfil(): void {
+    if (this.datosParticipante) {
+      if (!this.correoEditado.trim() || !this.telefonoEditado.trim() || !this.localidadEditada) {
+        alert('Por favor complete todos los campos de contacto y ubicación.');
+        return;
+      }
+
+      this.datosParticipante.correo = this.correoEditado.trim();
+      this.datosParticipante.telefono = this.telefonoEditado.trim();
+      this.datosParticipante.localidadResidencia = this.localidadEditada;
+
+      this.perfilActualizadoExito = true;
+      setTimeout(() => (this.perfilActualizadoExito = false), 4000);
+    }
+  }
 
   abrirCajaFlotante(): void {
     if (this.modalElement) {
@@ -181,6 +245,7 @@ export class Oferta {
     }
   }
 
+  // 🛠️ 3. REINCORPORADO: Solución al error de método inexistente
   cerrarCajaFlotante(): void {
     if (this.modalElement) {
       const modalHtml = this.modalElement.nativeElement;
@@ -190,31 +255,45 @@ export class Oferta {
 
       const backdrop = document.getElementById('backdrop-' + this.oferta.id);
       if (backdrop) backdrop.remove();
+
+      // 🛠️ 1. Cierre del método cerrarCajaFlotante()
       document.body.classList.remove('modal-open');
     }
   }
 
-    // 🛠️ CORRECCIÓN: Ahora el método recibe el valor de la cédula directamente desde el HTML
+  // ==========================================================================
+  // 🛠️ 2. MÉTODO COMPLETO: PROCESAR SOLICITUD INTENCIÓN (PERSISTENCIA FIREBASE)
+  // ==========================================================================
   procesarSolicitudIntencion(documento: string): void {
-    if (!documento || !documento.trim()) {
+    // Evalúa si el documento viene directo desde el botón, o del respaldo digitado
+    const docFinal = documento ? documento.trim() : this.documentoDigitado.trim();
+
+    // Validación de protección de campo vacío
+    if (!docFinal) {
       alert('Por favor ingrese su número de documento para registrar la intención.');
       return;
     }
 
+    // Escondemos la caja de texto emergente de forma controlada
     this.cerrarCajaFlotante();
 
-    // Guardamos en Cloud Firestore usando el parámetro recibido con total certeza
-    this.inscripcionService
-      .registrarInscripcion(this.oferta, documento.trim())
+    // Guardamos la intención académica asociando de forma relacional la cédula en Firebase
+    this.srcInscripcion
+      .registrarInscripcion(this.oferta, docFinal)
       .then(() => {
         alert(
-          `¡Registro de Intención Exitoso!\n\nEl curso "${this.oferta.nombre}" se ha asignado al documento de identidad ${documento} en el sistema.`,
+          `¡Registro de Intención Exitoso!\n\nEl curso "${this.oferta.nombre}" se ha asignado al documento de identidad ${docFinal} en el sistema Betowa por medio de Cloud Firestore.`,
         );
+        // Limpiamos las variables locales del modal para futuras consultas limpias
+        this.documentoDigitado = '';
+        this.usuarioAutenticado = false;
+        this.datosParticipante = undefined;
       })
       .catch((error) => {
         console.error('Error al guardar la intención en Firebase:', error);
-        alert('Hubo un error de conexión con Cloud Firestore.');
+        alert(
+          'Hubo un error de conexión con Cloud Firestore al procesar el registro de intención.',
+        );
       });
   }
-
-}
+} // 🛠️ 3. LLAVE FINAL que cierra la clase 'export class Oferta' de forma absoluta
