@@ -8,20 +8,29 @@ import { Router } from '@angular/router';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './login.html'
+  templateUrl: './login.html',
 })
 export class LoginComponent {
   documentoIngresado: string = '';
   usuarioAutenticado: boolean = false;
   datosParticipante: Participante | undefined;
-  
+
   // 🆕 Campos editables para actualización de perfil
   correoEditado: string = '';
   telefonoEditado: string = '';
   localidadEditada: string = '';
 
   // Lista de localidades para el combo desplegable de edición
-  localidadesDisponibles: string[] = ['Suba', 'Usme', 'Teusaquillo', 'Bosa', 'Kennedy', 'Engativá', 'Usaquén', 'Santa Fe'];
+  localidadesDisponibles: string[] = [
+    'Suba',
+    'Usme',
+    'Teusaquillo',
+    'Bosa',
+    'Kennedy',
+    'Engativá',
+    'Usaquén',
+    'Santa Fe',
+  ];
 
   // Estados de control de archivos e interfaz
   pdfCargado: boolean = false;
@@ -30,12 +39,15 @@ export class LoginComponent {
   pdfErrorMensaje: string = '';
   perfilActualizadoExito: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   buscarUsuario(): void {
     this.errorMensaje = '';
     this.perfilActualizadoExito = false;
-    
+
     if (!this.documentoIngresado.trim()) {
       this.errorMensaje = 'Por favor ingrese un número de documento válido.';
       return;
@@ -46,7 +58,7 @@ export class LoginComponent {
     if (resultado) {
       this.datosParticipante = resultado;
       this.usuarioAutenticado = true;
-      
+
       // 🆕 Precargar los campos editables con los valores actuales del participante
       this.correoEditado = resultado.correo;
       this.telefonoEditado = resultado.telefono;
@@ -73,9 +85,9 @@ export class LoginComponent {
       this.datosParticipante.localidadResidencia = this.localidadEditada;
 
       this.perfilActualizadoExito = true;
-      
+
       // Opcional: Ocultar la alerta de éxito después de 4 segundos
-      setTimeout(() => this.perfilActualizadoExito = false, 4000);
+      setTimeout(() => (this.perfilActualizadoExito = false), 4000);
     }
   }
 
@@ -89,7 +101,8 @@ export class LoginComponent {
       const archivo = input.files[0];
 
       if (archivo.type !== 'application/pdf' && !archivo.name.endsWith('.pdf')) {
-        this.pdfErrorMensaje = 'El archivo seleccionado no es válido. Debe cargar un archivo con extensión .PDF';
+        this.pdfErrorMensaje =
+          'El archivo seleccionado no es válido. Debe cargar un archivo con extensión .PDF';
         input.value = '';
         return;
       }
@@ -103,14 +116,17 @@ export class LoginComponent {
     // 💻 Eliminamos la condición obligatoria de "this.pdfCargado"
     if (this.usuarioAutenticado) {
       if (this.pdfCargado) {
-        alert(`Ingreso exitoso. Bienvenido(a) ${this.datosParticipante?.nombreCompleto}. Perfil y documento PDF validados.`);
+        alert(
+          `Ingreso exitoso. Bienvenido(a) ${this.datosParticipante?.nombreCompleto}. Perfil y documento PDF validados.`,
+        );
       } else {
-        alert(`Ingreso exitoso. Bienvenido(a) ${this.datosParticipante?.nombreCompleto}. (Ingreso realizado sin adjuntar documento).`);
+        alert(
+          `Ingreso exitoso. Bienvenido(a) ${this.datosParticipante?.nombreCompleto}. (Ingreso realizado sin adjuntar documento).`,
+        );
       }
       this.router.navigate(['/buscador']);
     }
   }
-
 
   resetForm(): void {
     this.documentoIngresado = '';
@@ -121,5 +137,11 @@ export class LoginComponent {
     this.errorMensaje = '';
     this.pdfErrorMensaje = '';
     this.perfilActualizadoExito = false;
+  }
+
+  // 🛠️ CORRECCIÓN EN LOGIN.TS: Navegación directa y limpia de página completa a página completa
+  viajarAPerfil(): void {
+    // Eliminamos los llamados a 'cerrarCajaFlotante' y residuos del DOM porque aquí no hay modales
+    this.router.navigate(['/perfil']);
   }
 }

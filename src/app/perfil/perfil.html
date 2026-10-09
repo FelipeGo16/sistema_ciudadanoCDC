@@ -1,0 +1,185 @@
+<div class="container my-5">
+  <div class="card shadow border-0 rounded-4 p-4 bg-white">
+    <div class="text-center mb-4">
+      <i class="bi bi-person-lines-fill text-success display-4"></i>
+      <h2 class="fw-bold text-dark mt-2">Mi Perfil Ciudadano</h2>
+      <p class="text-muted">
+        Valida tu documento para registrar y actualizar tus necesidades e intereses de inclusión.
+      </p>
+    </div>
+
+    <!-- Buscador Inicial de Cédula -->
+    <div class="row justify-content-center mb-4" *ngIf="!busquedaRealizada">
+      <div class="col-md-8">
+        <div class="input-group border rounded-3 p-1 bg-light shadow-sm">
+          <span class="input-group-text bg-transparent border-0 text-muted"
+            ><i class="bi bi-person-vcard"></i
+          ></span>
+          <input
+            type="text"
+            [(ngModel)]="documentoConsulta"
+            class="form-control bg-transparent border-0"
+            placeholder="Ingrese su número de documento *"
+          />
+          <button
+            class="btn btn-success fw-bold px-4 rounded-pill"
+            (click)="cargarPerfil()"
+            style="background-color: #39a900; border: none"
+          >
+            Validar Ingreso
+          </button>
+        </div>
+        <small *ngIf="errorMensaje" class="text-danger mt-2 d-block ms-2"
+          ><i class="bi bi-exclamation-circle me-1"></i>{{ errorMensaje }}</small
+        >
+      </div>
+    </div>
+
+    <!-- PANEL COMPLETO DE CARACTERIZACIÓN (REACTIVO) -->
+    <div *ngIf="busquedaRealizada && datosParticipante" class="animation-fade">
+      <!-- Ficha Informativa Superior -->
+      <div
+        class="alert alert-light border shadow-sm p-3 mb-4 rounded-3 d-flex justify-content-between align-items-center"
+      >
+        <div>
+          <h5 class="fw-bold text-dark mb-0">{{ datosParticipante.nombreCompleto }}</h5>
+          <!-- 🛠️ CORRECCIÓN: Cambiado de datosParticipante.documento a necesidades.documentoUsuario -->
+          <span class="text-secondary small"
+            >CC No. {{ necesidades.documentoUsuario }} • {{ datosParticipante.correo }}</span
+          >
+        </div>
+      </div>
+
+      <!-- Formulario de Necesidades e Intereses -->
+      <div class="row g-4">
+        <!-- SECCIÓN 1: INCLUSIÓN SOCIAL -->
+        <div class="col-md-6">
+          <div class="card h-100 p-3 bg-light border rounded-3">
+            <h5 class="fw-bold text-success mb-3 border-bottom pb-2">
+              <i class="bi bi-people-fill me-2"></i>Intereses en Inclusión Social
+            </h5>
+            <p class="text-muted small">
+              Selecciona los servicios comunitarios y sociales que requieres o te gustaría
+              participar:
+            </p>
+
+            <div class="form-check mb-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="artes"
+                [(ngModel)]="necesidades.interesArtes"
+              />
+              <label class="form-check-label fw-semibold text-dark small" for="artes"
+                >Artes (Cultura, música, teatro y pintura)</label
+              >
+            </div>
+            <div class="form-check mb-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="recreacion"
+                [(ngModel)]="necesidades.interesRecreacion"
+              />
+              <label class="form-check-label fw-semibold text-dark small" for="recreacion"
+                >Recreación y uso del tiempo libre</label
+              >
+            </div>
+            <div class="form-check mb-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="deporte"
+                [(ngModel)]="necesidades.interesDeporte"
+              />
+              <label class="form-check-label fw-semibold text-dark small" for="deporte"
+                >Deporte y actividad física comunitaria</label
+              >
+            </div>
+            <div class="form-check mb-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="lavanderias"
+                [(ngModel)]="necesidades.interesLavanderias"
+              />
+              <label class="form-check-label fw-semibold text-dark small" for="lavanderias"
+                >Acceso a Lavanderías Comunitarias</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: INCLUSIÓN PRODUCTIVA -->
+        <div class="col-md-6">
+          <div class="card h-100 p-3 bg-light border rounded-3">
+            <h5 class="fw-bold text-primary mb-3 border-bottom pb-2">
+              <i class="bi bi-briefcase-fill me-2"></i>Intereses en Inclusión Productiva
+            </h5>
+            <p class="text-muted small">
+              Selecciona las líneas de apoyo económico y técnico de tu interés:
+            </p>
+
+            <div class="form-check mb-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="empleabilidad"
+                [(ngModel)]="necesidades.interesEmpleabilidad"
+              />
+              <label class="form-check-label fw-semibold text-dark small" for="empleabilidad"
+                >Empleabilidad (Bolsas de empleo y vacantes)</label
+              >
+            </div>
+            <div class="form-check mb-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="emprendimiento"
+                [(ngModel)]="necesidades.interesEmprendimiento"
+              />
+              <label class="form-check-label fw-semibold text-dark small" for="emprendimiento"
+                >Emprendimiento (Capital semilla y asesorías)</label
+              >
+            </div>
+            <div class="form-check mb-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="formacion"
+                [(ngModel)]="necesidades.interesFormacionTecnica"
+              />
+              <label class="form-check-label fw-semibold text-dark small" for="formacion"
+                >Formación Técnica y Tecnológica Avanzada</label
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- OBSERVACIONES ADICIONALES -->
+        <div class="col-12">
+          <label class="form-label fw-bold text-secondary small"
+            >Describe brevemente otra necesidad o requerimiento especial:</label
+          >
+          <textarea
+            [(ngModel)]="necesidades.observacionesAdicionales"
+            class="form-control shadow-none"
+            rows="3"
+            placeholder="Escribe aquí..."
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Botón de Guardado -->
+      <div class="text-center mt-4 border-top pt-3">
+        <button
+          class="btn btn-success px-5 py-2 fw-bold rounded-pill shadow-sm"
+          style="background-color: #39a900; border: none; font-size: 1.1rem"
+          (click)="guardarNecesidadesIntereses()"
+        >
+          <i class="bi bi-save me-2"></i>Guardar Caracterización de Perfil
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

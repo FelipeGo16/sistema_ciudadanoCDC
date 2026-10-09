@@ -54,66 +54,72 @@
           </div>
 
           <div class="bg-light p-3 rounded-3 mb-4">
-            <!-- Campo no editable: Nombre completo -->
-            <div class="mb-3">
-              <label class="form-label text-muted small fw-bold mb-1"
-                >Nombre Completo (Identidad Protegida)</label
-              >
-              <input
-                type="text"
-                class="form-control form-control-sm bg-white"
-                [value]="datosParticipante.nombreCompleto"
-                disabled
-              />
-            </div>
+  <!-- Campo no editable: Nombre completo -->
+  <div class="mb-3">
+    <label class="form-label text-muted small fw-bold mb-1">Nombre Completo (Identidad Protegida)</label>
+    <input
+      type="text"
+      class="form-control form-control-sm bg-white"
+      [value]="datosParticipante.nombreCompleto"
+      disabled
+    />
+  </div>
 
-            <!-- 🆕 Formulario de Datos de Contacto y Ubicación Actualizables -->
-            <div class="row g-2">
-              <div class="col-md-6 mb-2">
-                <label class="form-label text-secondary small fw-bold mb-1">Teléfono Móvil</label>
-                <input
-                  type="text"
-                  [(ngModel)]="telefonoEditado"
-                  class="form-control form-control-sm"
-                  placeholder="Ej: 3110000000"
-                />
-              </div>
-              <div class="col-md-6 mb-2">
-                <label class="form-label text-secondary small fw-bold mb-1"
-                  >Localidad de Residencia</label
-                >
-                <select
-                  [(ngModel)]="localidadEditada"
-                  class="form-select form-select-sm text-muted"
-                >
-                  <option *ngFor="let loc of localidadesDisponibles" [value]="loc">
-                    {{ loc }}
-                  </option>
-                </select>
-              </div>
-              <div class="col-12 mb-2">
-                <label class="form-label text-secondary small fw-bold mb-1"
-                  >Correo Electrónico</label
-                >
-                <input
-                  type="email"
-                  [(ngModel)]="correoEditado"
-                  class="form-control form-control-sm"
-                  placeholder="nombre@correo.com"
-                />
-              </div>
-            </div>
+  <!-- 🆕 Formulario de Datos de Contacto y Ubicación Actualizables -->
+  <div class="row g-2">
+    <div class="col-md-6 mb-2">
+      <label class="form-label text-secondary small fw-bold mb-1">Teléfono Móvil</label>
+      <input
+        type="text"
+        [(ngModel)]="telefonoEditado"
+        class="form-control form-control-sm"
+        placeholder="Ej: 3110000000"
+      />
+    </div>
+    <div class="col-md-6 mb-2">
+      <label class="form-label text-secondary small fw-bold mb-1">Localidad de Residencia</label>
+      <select
+        [(ngModel)]="localidadEditada"
+        class="form-select form-select-sm text-muted"
+      >
+        <option *ngFor="let loc of localidadesDisponibles" [value]="loc">
+          {{ loc }}
+        </option>
+      </select>
+    </div>
+    <div class="col-12 mb-2">
+      <label class="form-label text-secondary small fw-bold mb-1">Correo Electrónico</label>
+      <input
+        type="email"
+        [(ngModel)]="correoEditado"
+        class="form-control form-control-sm"
+        placeholder="nombre@correo.com"
+      />
+    </div>
+  </div>
 
-            <!-- Botón para Guardar Cambios del Perfil -->
-            <div class="text-end mt-2">
-              <button
-                class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold"
-                (click)="actualizarPerfil()"
-              >
-                <i class="bi bi-save me-1"></i>Guardar Cambios de Perfil
-              </button>
-            </div>
-          </div>
+  <!-- 🛠️ Contenedor de Botones Alineados: Agregamos la ruta de redirección -->
+  <div class="d-flex justify-content-between align-items-center mt-3 border-top pt-2">
+    <!-- ♿ NUEVO: Botón institucional hacia la caracterización de Inclusión -->
+    <button
+  (click)="viajarAPerfil()"
+  class="btn btn-warning btn-sm rounded-pill px-3 fw-bold text-dark text-decoration-none shadow-sm border-0"
+  style="background-color: #fcae13;"
+>
+  <i class="bi bi-people-fill me-1"></i> Registrar Intereses
+</button>
+
+
+
+    <button
+      class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-bold"
+      (click)="actualizarPerfil()"
+    >
+      <i class="bi bi-save me-1"></i>Guardar Cambios de Perfil
+    </button>
+  </div>
+</div>
+
 
           <!-- Alerta de Condición de Beneficiario -->
           <div
@@ -130,30 +136,40 @@
             </div>
           </div>
 
-                    <!-- SECCIÓN DE CARGA DE PDF (Texto e Input actualizados como Opcional) -->
+          <!-- SECCIÓN DE CARGA DE PDF (Texto e Input actualizados como Opcional) -->
           <div class="mb-4">
             <label class="form-label fw-bold text-dark">
-              <i class="bi bi-file-pdf text-danger me-1"></i>Adjuntar Documento de Identidad (.PDF) <span class="text-muted fw-normal small">(Opcional)</span>
+              <i class="bi bi-file-pdf text-danger me-1"></i>Adjuntar Documento de Identidad (.PDF)
+              <span class="text-muted fw-normal small">(Opcional)</span>
             </label>
-            <input 
-              type="file" 
-              accept=".pdf" 
-              class="form-control" 
-              (change)="onFileSelected($event)">
-            <small class="text-muted d-block mt-1">Puedes adjuntar tu documento ahora o hacerlo más tarde en tu panel de usuario.</small>
-            <small *ngIf="pdfErrorMensaje" class="text-danger mt-1 d-block"><i class="bi bi-x-circle me-1"></i>{{ pdfErrorMensaje }}</small>
+            <input
+              type="file"
+              accept=".pdf"
+              class="form-control"
+              (change)="onFileSelected($event)"
+            />
+            <small class="text-muted d-block mt-1"
+              >Puedes adjuntar tu documento ahora o hacerlo más tarde en tu panel de usuario.</small
+            >
+            <small *ngIf="pdfErrorMensaje" class="text-danger mt-1 d-block"
+              ><i class="bi bi-x-circle me-1"></i>{{ pdfErrorMensaje }}</small
+            >
           </div>
 
           <!-- Botones de Acción Final -->
           <div class="d-flex gap-2">
-            <button class="btn btn-outline-secondary w-100 rounded-pill fw-bold" (click)="resetForm()">Cancelar</button>
-            
+            <button
+              class="btn btn-outline-secondary w-100 rounded-pill fw-bold"
+              (click)="resetForm()"
+            >
+              Cancelar
+            </button>
+
             <!-- 🛠️ CORRECCIÓN: Quitamos [disabled]="!pdfCargado" para que el botón esté siempre activo al validar la cédula -->
             <button class="btn btn-success w-100 rounded-pill fw-bold" (click)="finalizarIngreso()">
               Ingresar al Sistema
             </button>
           </div>
-
         </div>
       </div>
     </div>
