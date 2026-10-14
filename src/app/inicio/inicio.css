@@ -1,11 +1,23 @@
 .hero-section {
-    min-height: 100vh;
-    background-size: cover;
-    background-position: center right;
+    width: 100%;
+    /* 1. Ajustamos la proporción basándonos en las dimensiones de la imagen (1024x576) */
+    aspect-ratio: 16 / 9; 
+    min-height: auto; /* Quitamos el 100vh para evitar que se estire o corte verticalmente */
+    
+    /* 2. 🎨 COLORES ORIGINALES: Dejamos la URL de la imagen limpia, sin linear-gradient encima */
+    background-image: url('../../assets/imagenes/Banner-Principal.jpg'); 
+        
+    /* 3. 📐 IMAGEN COMPLETA: 'contain' o '100% 100%' garantizan que no se recorte ningún borde */
+    background-size: 100% 100%;
+    background-position: center;
     background-repeat: no-repeat;
+    
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-items: center;
 }
+
 
 
 
@@ -203,25 +215,27 @@
     }
 }
 
-/* Contenedor principal del ítem del carrusel */
+/* Contenedor principal del ítem del carrusel - Ajustado al color de la imagen */
 .carousel-item {
-    /* 🎨 Combinación magnética: Rojo Eléctrico, transición Magenta y Púrpura Profundo */
-    background: linear-gradient(135deg, #ff1744 0%, #b310b3 50%, #651fff 100%);
+    /* 🎨 Gradiente Vino Tinto Institucional y Elegante según la referencia */
+    background: linear-gradient(135deg, #E3272A 0%, #E3272A 50%, #5e010c 100%);
     position: relative;
     overflow: hidden;
+    border-radius: 16px; /* 📐 Suaviza las esquinas del bloque principal si es contenedor único */
 }
 
-/* Capa de fusión para asegurar el contraste del texto blanco */
+/* Capa de fusión optimizada para un contraste cinematográfico limpio */
 .capa-gradiente-verde {
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
-    /* Mantiene las esquinas oscurecidas para un efecto cinematográfico y legible */
-    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, rgba(15, 5, 30, 0.55) 100%);
+    /* Oscurece sutilmente los bordes exteriores para potenciar el resalte de los textos blancos */
+    background: radial-gradient(circle at center, rgba(101, 0, 2, 0), rgba(227, 39, 42, 0.6) 100%);
     z-index: 1;
 }
+
 
 /* Sombra de texto reforzada para contrastar sobre fondos de alta energía */
 .text-shadow-vibrante {

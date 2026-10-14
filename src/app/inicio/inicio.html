@@ -13,9 +13,11 @@
     <div class="row align-items-center">
       <!-- Bloque izquierdo -->
       <div class="col-lg-7 text-start">
-        <h2 class="hero-title hero-title-small mb-0">¿Qué oportunidad</h2>
+        <!--<h2 class="hero-title hero-title-small mb-0">¿Qué oportunidad</h2>-->
 
-        <h1 class="hero-title hero-title-big text-uppercase mb-4">estás buscando?</h1>
+        <h1 class="hero-title text-uppercase fw-bold fs-1 mb-4">
+          Centro de Oportunidades y Capacidades
+        </h1>
 
         <!-- Buscador Expandido -->
         <div class="search-container">
@@ -83,7 +85,7 @@
           class="carousel-item h-100"
           [class.active]="isFirst"
           [ngStyle]="{
-            'background-image': 'url(/imagenes/fondo-degradado-rojo.jpg)',
+            
             'background-size': 'cover',
             'background-position': 'center',
             'background-repeat': 'no-repeat',
@@ -161,37 +163,33 @@
     </div>
 
     <div class="row g-4">
-      <!-- VIRTUAL -->
+      <!-- Inclusión Productiva -->
       <div class="col-lg-4 col-md-6">
         <div class="oferta-card" (click)="filtrarPorModalidad('Virtual')">
           <div class="oferta-cuerpo-verde">
             <img src="/imagenes/Boton_1.jpg" class="oferta-icono" alt="Icono Virtual" />
           </div>
-          <div class="oferta-base-morada">Virtual</div>
+          <div class="oferta-base-morada">Inclusión Productiva</div>
         </div>
       </div>
 
-      <!-- PRESENCIAL Y A DISTANCIA -->
+      <!-- Inclusión Social -->
       <div class="col-lg-4 col-md-6">
         <div class="oferta-card" (click)="filtrarPorModalidad('Presencial')">
           <div class="oferta-cuerpo-verde">
             <img src="/imagenes/Boton_2.jpg" class="oferta-icono" alt="Icono Presencial" />
           </div>
-          <div class="oferta-base-morada">Presencial y a distancia</div>
+          <div class="oferta-base-morada">Inclusión Social</div>
         </div>
       </div>
 
-      <!-- EMPRESARIAL -->
+      <!-- Participativo/Comunitario -->
       <div class="col-lg-4 col-md-6">
         <div class="oferta-card" (click)="filtrarPorModalidad('Empresarial')">
           <div class="oferta-cuerpo-verde">
-            <img
-              src="/imagenes/Boton_3.jpg"
-              class="oferta-icono"
-              alt="Icono Empresarial"
-            />
+            <img src="/imagenes/Boton_3.jpg" class="oferta-icono" alt="Icono Empresarial" />
           </div>
-          <div class="oferta-base-morada">Empresarial</div>
+          <div class="oferta-base-morada">Participativo/Comunitario</div>
         </div>
       </div>
     </div>
