@@ -154,47 +154,74 @@
 <!-- OFERTA EDUCATIVA -->
 <section class="py-5 bg-light">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="fw-bold display-4 text-primary">Fortalece tus capacidades</h2>
-      <p class="lead text-secondary">
-        Encuentra oportunidades para aprender, desarrollar nuevas habilidades y ampliar tus
-        oportunidades para la vida, el trabajo y el emprendimiento.
+    <!-- Encabezado Principal Ajustado en Texto y Color -->
+    <div class="text-center mb-5 max-width-700 mx-auto">
+      <h2 class="fw-bold text-dark mb-3" style="font-size: 2.8rem; letter-spacing: -1px;">
+        Centro de Oportunidades y Capacidades
+      </h2>
+      <p class="text-secondary small px-md-5" style="font-size: 1.05rem; line-height: 1.5;">
+        Seleccione una de nuestras áreas de interés para explorar los cursos, desarrollar nuevas habilidades y acceder a las opciones de preinscripción.
       </p>
     </div>
 
-    <div class="row g-4">
-      <!-- Inclusión Productiva -->
+    <!-- Grilla Responsiva de 3 Columnas -->
+    <div class="row g-4 justify-content-center">
+      
+      <!-- 1. Inclusión Productiva -->
       <div class="col-lg-4 col-md-6">
-        <div class="oferta-card" (click)="filtrarPorModalidad('Virtual')">
-          <div class="oferta-cuerpo-verde">
-            <img src="/imagenes/Boton_1.jpg" class="oferta-icono" alt="Icono Virtual" />
+        <div class="card h-100 border-0 shadow-sm custom-area-card">
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <div>
+              <h4 class="fw-bold text-dark mb-3">Inclusión Productiva</h4>
+              <p class="text-muted small text-start" style="line-height: 1.6; text-align: justify;">
+                Facilita el acceso a formación, orientación y acompañamiento para fortalecer las capacidades para el trabajo, el emprendimiento y la toma informada de decisiones ocupacionales, mediante la articulación con aliados estratégicos.
+              </p>
+            </div>
+            <button class="btn btn-warning w-100 py-2.5 fw-bold text-dark mt-4 custom-explore-btn" (click)="filtrarPorModalidad('Inclusion Productiva')">
+              Explorar cursos
+            </button>
           </div>
-          <div class="oferta-base-morada">Inclusión Productiva</div>
         </div>
       </div>
 
-      <!-- Inclusión Social -->
+      <!-- 2. Inclusión Social -->
       <div class="col-lg-4 col-md-6">
-        <div class="oferta-card" (click)="filtrarPorModalidad('Presencial')">
-          <div class="oferta-cuerpo-verde">
-            <img src="/imagenes/Boton_2.jpg" class="oferta-icono" alt="Icono Presencial" />
+        <div class="card h-100 border-0 shadow-sm custom-area-card">
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <div>
+              <h4 class="fw-bold text-dark mb-3">Inclusión Social</h4>
+              <p class="text-muted small text-start" style="line-height: 1.6; text-align: justify;">
+                Desarrolla capacidades y habilidades individuales y colectivas mediante actividades orientadas al bienestar integral, el aprovechamiento del tiempo libre, la recreación, el deporte, las artes, la cultura y el reconocimiento de las labores de cuidado.
+              </p>
+            </div>
+            <button class="btn btn-warning w-100 py-2.5 fw-bold text-dark mt-4 custom-explore-btn" (click)="filtrarPorModalidad('Inclusion Social')">
+              Explorar cursos
+            </button>
           </div>
-          <div class="oferta-base-morada">Inclusión Social</div>
         </div>
       </div>
 
-      <!-- Participativo/Comunitario -->
+      <!-- 3. Participativo y Comunitario -->
       <div class="col-lg-4 col-md-6">
-        <div class="oferta-card" (click)="filtrarPorModalidad('Empresarial')">
-          <div class="oferta-cuerpo-verde">
-            <img src="/imagenes/Boton_3.jpg" class="oferta-icono" alt="Icono Empresarial" />
+        <div class="card h-100 border-0 shadow-sm custom-area-card">
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <div>
+              <h4 class="fw-bold text-dark mb-3">Participativo y Comunitario</h4>
+              <p class="text-muted small text-start" style="line-height: 1.6; text-align: justify;">
+                Promueve capacidades individuales y colectivas, fortalece el tejido social y las redes de apoyo comunitario e impulsa la participación territorial y la corresponsabilidad entre actores sociales e institucionales.
+              </p>
+            </div>
+            <button class="btn btn-warning w-100 py-2.5 fw-bold text-dark mt-4 custom-explore-btn" (click)="filtrarPorModalidad('Participativo y Comunitario')">
+              Explorar cursos
+            </button>
           </div>
-          <div class="oferta-base-morada">Participativo/Comunitario</div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
+
 
 <!-- ESTADÍSTICAS -->
 <section class="estadisticas-section py-5">

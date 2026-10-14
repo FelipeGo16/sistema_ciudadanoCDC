@@ -97,6 +97,40 @@
    OFERTA EDUCATIVA
    ========================================== */
 
+/* Tarjeta con borde superior plano de color institucional */
+.custom-area-card {
+    border-radius: 12px !important;
+    overflow: hidden;
+    border-top: 8px solid #fcae13 !important; /* Franja naranja superior exacta */
+    background-color: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.custom-area-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Botón Ovalado de Exploración */
+.custom-explore-btn {
+    background-color: #fcae13 !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    transition: background-color 0.2s ease;
+}
+
+.custom-explore-btn:hover {
+    background-color: #e0990b !important; /* Tono más oscuro al pasar el cursor */
+}
+
+/* Limitador de ancho máximo para el encabezado */
+.max-width-700 {
+    max-width: 730px;
+}
+
+
 /* ==========================================================================
    📐 AJUSTE HORIZONTAL DEFINITIVO (ELIMINACIÓN DE FRANJAS LATERALES)
    ========================================================================== */
